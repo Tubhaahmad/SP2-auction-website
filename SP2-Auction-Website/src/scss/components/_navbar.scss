@@ -1,0 +1,135 @@
+@use "../variables" as *;
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: $color-bg;
+    border-bottom:  1px solid $color-muted;
+    transition: background-color $fast-transition, box-shadow $fast-transition;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem, 1rem;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    gap: 1rem;
+
+    font-family: $font-body;
+    color: $color-text;
+
+}
+
+@media (max-width: 767px) {
+    .nav-container {
+        flex-direction: column;
+        padding-bottom: 2rem;
+    }
+}
+
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-left a,
+.nav-right a {
+  text-decoration: none;
+  color: $color-text;
+  font-weight: 500;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
+  font-size: 1rem;
+  position: relative;
+  transition: color $fast-transition;
+}
+
+.logo a {
+  font-size: 1.3rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  text-decoration: none;
+  color: $color-text;
+  font-weight: 500;
+  
+
+  @media (width>850px) {
+    font-size: 1.7rem;
+    
+  }
+
+  @media (width>920px) {
+    font-size: 2.5rem;
+  }
+}
+
+.divider {
+  padding-top: 1rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+/* Hamburger toggle */
+.nav-toggle {
+  display: none;
+}
+.nav-toggle-label {
+  display: none;
+  font-size: 2rem;
+  color: $color-text;
+  cursor: pointer;
+  position: absolute;
+  top: 2.4rem;
+  right: 1.5rem;
+}
+
+/* Mobile Nav */
+@media (max-width: 767px) {
+  .nav-toggle-label {
+    display: block;
+  }
+
+  .logo {
+    padding-top: 3rem;
+  }
+  .divider {
+    display: none;
+  }
+
+  .nav-left,
+  .nav-right {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    background-color: $color-bg;
+    padding: 1rem;
+  }
+
+  .nav-toggle:checked ~ .nav-left,
+  .nav-toggle:checked ~ .nav-right {
+    display: flex;
+  }
+
+  .nav-container {
+    flex-direction: column;
+  }
+
+  .nav-toggle:checked ~ #navbar-logo {
+    display: none;
+  }
+}
+
+.nav-left a:hover,
+.nav-right a:hover,
+.nav-menu a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
