@@ -22,3 +22,14 @@ $fast-transition: 0.2s ease;
 // Breakpoints
 $breakpoint-sm: 768px;
 $breakpoint-large: 1024px;
+
+:root {
+    --bg-main:       #F8F7F3;
+    --text-main:     #1C1C1C;
+    --accent-gold:   #BFA76F;
+    --text-muted:    #C5C4BE;
+    --highlight:     #6E7C7C;
+    --dark-bg:       #2C2B28  
+    --font-heading: "Libre Baskerville", serif;
+    --font-body:    "Manrope", sans-serif; 
+}   
