@@ -3,7 +3,8 @@ import { loadNavbar } from './navbar.mjs';
 
 loadNavbar();
 
-const MAX_ITEMS = 12;
+const API_BASE = "https://v2.api.noroff.dev";
+const MAX_LISTINGS = 12;
 
 export function loadAuctionsPage() {
     const page = document.getElementById('auctionsPage');
@@ -51,52 +52,74 @@ function setupAuctionsList() {
     let allListings = []; // This will hold all fetched listings
     let filteredListings = []; // This will hold filtered listings based on search and sort
 
-    const placeholderData = [
-        {
-            id: 1,
-            title: "Starry Night",
-            artist: "Vincent van Gogh",
-            bids: 5,
-            endsIn: "2h 30m",
-            image: "images/placeholder1.jpg"
-        },
+    //fetching listings from noroff api//
+   async function loadListings() {
+    try {
+      const response = await fetch(
+        `${API_BASE}/auction/listings?_active=true&_seller=true&_bids=true`
+      );
 
-        {
-            id: 1,
-            title: "Starry Night",
-            artist: "Vincent van Gogh",
-            bids: 5,
-            endsIn: "2h 30m",
-            image: "images/placeholder1.jpg"
-        },
+      if (!response.ok) {
+        throw new Error("Failed to fetch listings");
+      }
 
-        {
-            id: 1,
-            title: "Starry Night",
-            artist: "Vincent van Gogh",
-            bids: 5,
-            endsIn: "2h 30m",
-            image: "images/placeholder1.jpg"
-        },
+      const result = await response.json();
+      const listings = result.data || [];
 
-         {
-            id: 1,
-            title: "Starry Night",
-            artist: "Vincent van Gogh",
-            bids: 5,
-            endsIn: "2h 30m",
-            image: "images/placeholder1.jpg"
-        }
+      allListings = listings.slice(0, MAX_LISTINGS).map((item) => {
+        const firstMedia =
+          item.media && item.media.length > 0 ? item.media[0] : null;
 
+               
+        return {
+          id: item.id,
+          title: item.title,
+          artist: item.seller?.name || "Unknown Artist",
+          bids: item._count?.bids ?? 0,
+          endsIn: formatEndsIn(item.endsAt),
+          image:
+            firstMedia?.url ||
+            "https://via.placeholder.com/300x200?text=No+Image",
+        };
+      });        
+                
+               filteredListings = allListings;
+      renderListings();
+    } catch (error) {
+      console.error("Error loading listings:", error);
+      listingsContainer.innerHTML = `
+        <p class="no-results">
+          We couldn’t load the listings at this time. Please try again later.
+        </p>`;
+    }
+  }
 
-        // Add more placeholder items as needed
-    ];
+  loadListings();
 
-    allListings = placeholderData.slice(0, MAX_ITEMS);
-    filteredListings = allListings;
+  //helper function to format time remaining//
+  function formatEndsIn(endsAt) {
+    if (!endsAt) return "Unknown";
 
-    renderListings();
+    const endTime = new Date(endsAt).getTime();
+    const currentTime = Date.now();
+    const diffInMs = endTime - currentTime;
 
+    if (diffInMs <= 0) { return "Ended";}
+
+    const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+
+    if (hours < 24) {
+        const minutes = Math.floor(diffInMs / (1000 * 60)) % 60;
+        return `${hours}h ${minutes}m`;
+    } else {
+        const minutes = Math.floor(diffInMs / (1000 * 60)) % 60;
+        return `${hours}h ${minutes}m`;
+    }
+
+    return `${days}d`;
+}
+        
       //rendering function//
     function renderListings() {
         listingsContainer.innerHTML = '';
@@ -122,7 +145,7 @@ function setupAuctionsList() {
             listingsContainer.appendChild(card);
         });
     }
-}
+
 
 //search//
 
@@ -159,6 +182,4 @@ function setupAuctionsList() {
     }
     );
 
-
-    
-    
+}
