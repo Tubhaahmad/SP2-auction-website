@@ -11,7 +11,7 @@ export function loadNavbar() {
         <div class="nav-left">
           <a href="/">Home</a>
           <span class="divider">|</span>
-          <a href="#">About</a>
+          <a href="/auctions/auctions.html">Auctions</a>
         </div>
 
         <div class="logo" id="navbar-logo">

@@ -27,7 +27,7 @@ form.addEventListener('submit', (event) => {
 
 if (browseAllBtn) {
     browseAllBtn.addEventListener('click', () => {
-        window.location.href = '/auctions.html';
+        window.location.href = '/auctions/auctions.html';
     });
 }
 }

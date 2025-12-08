@@ -140,7 +140,7 @@ function setupAuctionsList() {
                 <p class="listing-ends-in">Ends in: ${item.endsIn}</p>
             </div>
 
-            <a href="listing.html?id=${item.id}" class="btn btn--primary listing-view-btn">View Listing</a>
+            <a href="auction.html?id=${item.id}" class="btn btn--primary listing-view-btn">View Listing</a>
             `;
             listingsContainer.appendChild(card);
         });
