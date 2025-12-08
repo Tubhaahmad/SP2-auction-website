@@ -1,32 +1,36 @@
+const USER_KEY = "user";
+const TOKEN_KEY = "token";
 
-const STORAGE_KEY = "artevia_user";
-
-//get the user from localStorage//
 export function getUser() {
-    const saved = localStorage.getItem("artevia_user");
-    return saved ? JSON.parse(saved) : null;
+  const raw = localStorage.getItem(USER_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error("Error reading user from localStorage:", error);
+    return null;
+  }
 }
 
-//save the user to localStorage//
-export function saveUser(userData) {
-    const user = {
-        name: userData.name,
-        email: userData.email,
-        accessToken: userData.accessToken,
-        credits: userData.credits || null,
-        avatar: userData.avatar || null,
-        banner: userData.banner || 0,
-    };
-
-    localStorage.setItem("artevia_user", JSON.stringify(user));
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
 }
 
-//remove user (log out)//
-export function clearUser() {
-    localStorage.removeItem("artevia_user");
-}
-
-//check if user is logged in//
 export function isLoggedIn() {
-    return Boolean(getUser()?.accessToken);
-}   
+  const token = getToken();
+  return !!token;
+}
+
+export function clearUser() {
+  localStorage.removeItem(USER_KEY);
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem("username");
+}
+
+
+export function logoutUser() {
+    localStorage.removeItem("artevia_user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+}

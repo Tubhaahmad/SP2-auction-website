@@ -1,3 +1,5 @@
+import { getToken, logoutUser } from "./auth.mjs";
+
 export function loadNavbar() {
   const header = document.querySelector('header');
   if (!header) return;
@@ -23,9 +25,40 @@ export function loadNavbar() {
           <a href="/account/login.html" id="login-link">Login</a>
           <span class="divider">|</span>
           <a href="/account/register.html" id="register-link">Register</a>
-          <a href="#" id="logout-btn" class="hidden">Logout</a>
+          <a href="/account/login.html" id="logout-btn" class="hidden">Logout</a>
         </div>
       </nav>
     </div>
   `;
+
+  updateNavbar();
+}
+
+function updateNavbar() {
+  const token = getToken();
+  const loginLink = document.getElementById("login-link");
+  const registerLink = document.getElementById("register-link");
+  const logoutBtn = document.getElementById("logout-btn");
+  const divider = document.querySelector(".divider");
+
+  if (token) {
+    loginLink.style.display = "none";
+    registerLink.style.display = "none";
+    divider.style.display = "none";
+
+    logoutBtn.classList = "hidden";
+    logoutBtn.style.display = "inline";
+
+    logoutBtn.addEventListener("click", (event) => {
+      logoutUser();
+      alert ("You have been logged out.");
+      window.location.href = "/index.html";
+    });
+  } else {
+    loginLink.style.display = "inline";
+    registerLink.style.display = "inline";
+    divider.style.display = "inline";
+
+    logoutBtn.style.display = "none";
+  }
 }

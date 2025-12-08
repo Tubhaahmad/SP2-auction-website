@@ -1,49 +1,53 @@
 import { loadNavbar } from "../src/navbar.mjs";
-import { saveUser } from "../src/auth.mjs";
+
 import "../src/scss/styles.scss";
 
 
 
 loadNavbar();
 
-console.log("Login page loaded!!!");
+console.log("Login page is working!!!!!!");
 
-//login functionality//
 const form = document.getElementById("login-form");
 
-form.addEventListener("submit", async (event) => {
-    event.preventDefault();    
-    
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
 
-    const loginInfo = {
-        email: email,
-        password: password
-    };
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
 
-    try {
-        const response = await fetch("https://v2.api.noroff.dev/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(loginInfo)
-        });
+  const loginInfo = {
+    email: email,
+    password: password,
+  };
 
-        const data = await response.json();
+  try {
+    const response = await fetch("https://v2.api.noroff.dev/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginInfo),
+    });
 
-        if (!response.ok) {
-            alert ("Login failed. Please check your email and password.");
-            return;
-        }
+    const data = await response.json();
 
-        saveUser(data);
-        alert("You are now logged in!");
-        window.location.href = "/index.html";
-
-    } catch (error) {
-        console.error("Error during login:", error);
-        alert("An error occurred during login. Please try again later.");
+    if (!response.ok) {
+      console.log("Login error:", data);
+      alert("Login failed. Please check your email and password!");
+      return;
     }
+
+    // 🔑 Store login information in a simple way
+    localStorage.setItem("token", data.data.accessToken);
+    localStorage.setItem("username", data.data.name);
+    localStorage.setItem("user", JSON.stringify(data.data));
+
+    alert("You are logged in!");
+
+    window.location.href = "/index.html";
+  } catch (error) {
+    console.log("Something went wrong:", error);
+    alert("Something went wrong. Try again later.");
+  }
 });
