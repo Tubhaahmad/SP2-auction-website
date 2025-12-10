@@ -28,7 +28,7 @@ export function loadNavbar() {
          <span id="navbar-credits" class="nav-credits"></span>
 
           <a href="/account/profile.html" id="profile-link">Profile</a>
-           <a href="/create-listing.html" id="create-link">Create listing</a>
+           <a href="/listings/create.html" id="create-link">Create listing</a>
 
          
           <a href="/account/login.html" id="login-link">Login</a>

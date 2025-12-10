@@ -49,7 +49,7 @@ export function loadProfilePage() {
       <section class="profile-auctions">
         <div class="profile-section-header">
           <h2>My Listings</h2>
-          <a href="/create-listing.html">+ Create Listing</a>
+          <a href="/listings/create.html">+ Create Listing</a>
         </div>
         <div id="profileListings" class="profile-listings-grid"></div>
       </section>
@@ -183,8 +183,8 @@ async function setupProfileLogic() {
             <p class="profile-listing-ends">Ends: ${formatDateTime(item.endsAt)}</p>
           </div>
           <div class="profile-listing-actions">
-            <a href="/auction.html?id=${item.id}" class="btn btn--ghost">View</a>
-            <a href="/edit-listing.html?id=${item.id}" class="btn btn--secondary">Edit</a>
+            <a href="/auctions/auction.html?id=${item.id}" class="btn btn--ghost">View</a>
+            <a href="/listings/edit.html?id=${item.id}" class="btn btn--secondary">Edit</a>
             <button class="btn btn--danger" data-id="${item.id}">Delete</button>
           </div>
         `;
@@ -277,21 +277,21 @@ async function setupProfileLogic() {
         card.className = "profile-bid-card";
 
         card.innerHTML = `
-          <div class="profile-bid-content">
-            <h3 class="profile-bid-title">${listingTitle}</h3>
-            <p class="profile-bid-amount">Your bid: ${amount} credits</p>
-            <p class="profile-bid-time">Placed: ${created}</p>
-          </div>
-          <div class="profile-bid-actions">
-            ${
-              listingId
-                ? `<a href="/auction.html?id=${listingId}" class="btn btn--ghost">
-                     View Listing
-                   </a>`
-                : ""
-            }
-          </div>
-        `;
+  <div class="profile-bid-content">
+    <h3 class="profile-bid-title">${listingTitle}</h3>
+    <p class="profile-bid-amount">Your bid: ${amount} credits</p>
+    <p class="profile-bid-time">Placed: ${created}</p>
+  </div>
+  <div class="profile-bid-actions">
+    ${
+      listingId
+        ? `<a href="/auction.html?id=${listingId}" class="btn btn--ghost">
+             View Listing
+           </a>`
+        : ""
+    }
+  </div>
+`;
 
         bidsContainer.appendChild(card);
       });
