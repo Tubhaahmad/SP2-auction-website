@@ -4,7 +4,7 @@ import { loadNavbar } from './navbar.mjs';
 loadNavbar();
 
 const API_BASE = "https://v2.api.noroff.dev";
-const MAX_LISTINGS = 12;
+const MAX_LISTINGS = 20;
 
 export function loadAuctionsPage() {
     const page = document.getElementById('auctionsPage');
@@ -56,8 +56,9 @@ function setupAuctionsList() {
    async function loadListings() {
     try {
       const response = await fetch(
-        `${API_BASE}/auction/listings?_active=true&_seller=true&_bids=true`
-      );
+  `${API_BASE}/auction/listings?_active=true&_tag=artevia&_seller=true&_bids=true`
+);
+
 
       if (!response.ok) {
         throw new Error("Failed to fetch listings");
