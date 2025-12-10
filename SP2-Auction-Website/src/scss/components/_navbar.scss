@@ -132,3 +132,19 @@
   text-decoration: underline;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
+
+.nav-credits {
+  font-family: $font-body;
+  font-size: 1rem;
+  color: $color-muted;
+  margin-right: 1.5rem;
+
+  @media (max-width: 767px) {
+    margin-right: 0;
+    display: block;
+  }
+}
+
+.hidden {
+  display: none;
+}

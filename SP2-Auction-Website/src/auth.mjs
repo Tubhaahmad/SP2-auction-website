@@ -34,3 +34,8 @@ export function logoutUser() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 }
+
+//save user data back to localStorage after profile fetch or updates//
+export function saveUserData(userData) {
+    localStorage.setItem(USER_KEY, JSON.stringify(userData));
+}
