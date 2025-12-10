@@ -1,0 +1,96 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.9rem;
+
+  font-family: $font-body;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background-color 0.22s ease,
+    color 0.22s ease,
+    border-color 0.22s ease,
+    transform 0.18s ease,
+    box-shadow 0.22s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:disabled,
+  &.is-disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.btn--primary {
+  background: $color-text;
+  color: $color-bg;
+  border-color: $color-text;
+  &:hover {
+    background: darken($color-accent, 4%);
+    border-color: darken($color-accent, 4%);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.btn--secondary {
+  background: white;
+  color: $color-text;
+  border-color: $color-muted;
+
+  &:hover {
+    border-color: $color-accent;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.btn--ghost {
+  background: transparent;
+  color: $color-text;
+  border-color: $color-muted;
+
+  &:hover {
+    border-color: $color-accent;
+    color: $color-text;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.btn--danger {
+  background: transparent;
+  color: #8b2c2c;
+  border-color: rgba(139, 44, 44, 0.35);
+
+  &:hover {
+    background: rgba(139, 44, 44, 0.08);
+    border-color: rgba(139, 44, 44, 0.6);
+  }
+}
+
+.btn--sm {
+  padding: 0.55rem 0.9rem;
+  font-size: 0.82rem;
+  border-radius: 0.7rem;
+}

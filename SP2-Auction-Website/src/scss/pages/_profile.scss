@@ -2,7 +2,7 @@
 
 
 .profile-page {
-    background-color: $color-bg;
+    background-color: #efeee9;
     padding: 4rem 1.5rem;
 
     @media (min-width: $breakpoint-sm) {
@@ -74,6 +74,7 @@
 
 .profile-text-info {
     text-align: center;
+    margin-top: 1rem;
 
     @media (min-width: $breakpoint-sm) {
         text-align: left;
@@ -169,6 +170,7 @@
 
   @media (min-width: $breakpoint-sm) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: center;
   }
 
   @media (min-width: $breakpoint-large) {
@@ -177,7 +179,8 @@
 }
 
 .profile-listing-card {
-    background: $color-bg;
+  background: $color-bg;
+  max-width:  320px;
   border: 1px solid $color-muted;
   border-radius: 14px;
   overflow: hidden;
@@ -189,6 +192,12 @@
     transform: translateY(-3px);
     border-color: rgba($color-accent, 0.45);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -215,4 +224,13 @@
   font-size: 0.9rem;
   color: $color-muted;
   margin: 0.15rem 0;
+}
+
+.profile-listing-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  padding: 0.75rem 1.25rem 1.25rem;
+  display: flex;
+  gap: 0.5rem;
 }

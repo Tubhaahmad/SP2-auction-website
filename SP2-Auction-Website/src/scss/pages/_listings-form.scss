@@ -42,7 +42,7 @@
   border-radius: 1.25rem;
   padding: 1.5rem;
   max-width: 740px;
-  max-height: 890px;
+  
 
   @media (min-width: 768px) {
     padding: 2.5rem;
@@ -135,10 +135,6 @@
   }
 
   .btn {
-
-
-    background-color: $color-accent;
-    color: $color-bg;
-    min-width: 160px;
+    margin-top: 1.2rem;
   }
 }
