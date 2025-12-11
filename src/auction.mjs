@@ -13,35 +13,39 @@ export function loadAuctionPage() {
   if (!page) return;
 
   page.innerHTML = `
-    <section class="auction-detail container">
-      <div class="auction-layout">
-        <div class="auction-image-wrapper">
-          <img id="auctionImage" alt="Artwork Image" class="auction-image" />
-        </div>
-
-        <div class="auction-info">
-          <h1 id="auctionTitle" class="auction-title"></h1>
-          <p id="auctionArtist" class="auction-artist"></p>
-          <p id="auctionSeller" class="auction-seller"></p>
-
-          <p id="auctionEnds" class="auction-ends"></p>
-          <p id="auctionEndsExact" class="auction-ends-exact"></p>
-
-          <p id="auctionDescription" class="auction-description"></p>
-
-          <div class="auction-meta">
-            <p id="auctionBidsCount" class="auction-bids-count"></p>
-          </div>
-
-          <div id="bidSection" class="auction-bid-section"></div>
-        </div>
+     <section class="auction-detail container">
+    <div class="auction-layout">
+      <div class="auction-image-wrapper">
+        <img id="auctionImage" alt="Artwork Image" class="auction-image" />
       </div>
 
-      <section class="auction-bids-history">
-        <h2 class="section-title">Bid History</h2>
-        <ul id="bidsList" class="bids-list"></ul>
-      </section>
+      <div class="auction-info">
+        <h1 id="auctionTitle" class="auction-title"></h1>
+        <p id="auctionArtist" class="auction-artist"></p>
+        <p id="auctionSeller" class="auction-seller"></p>
+
+        <p id="auctionEnds" class="auction-ends"></p>
+        <p id="auctionEndsExact" class="auction-ends-exact"></p>
+
+        <p id="auctionDescription" class="auction-description"></p>
+
+        <div class="auction-meta">
+          <p id="auctionBidsCount" class="auction-bids-count"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FULL-WIDTH BID HISTORY -->
+    <section class="auction-bids-history">
+      <h2 class="section-title">Bid History</h2>
+      <ul id="bidsList" class="bids-list"></ul>
     </section>
+
+    <!-- FULL-WIDTH PLACE-BID CARD -->
+    <section class="auction-bid-section-wrapper">
+      <div id="bidSection"></div>
+    </section>
+  </section>
   `;
 
   setupAuctionLogic();
