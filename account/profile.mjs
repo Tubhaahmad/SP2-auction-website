@@ -2,6 +2,8 @@ import "../src/scss/styles.scss";
 import { loadNavbar } from "../src/navbar.mjs";
 import { getUser, getToken, saveUserData } from "../src/auth.mjs";
 
+console.log("✅ profile.mjs loaded");
+
 const API_BASE = "https://v2.api.noroff.dev";
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
@@ -46,6 +48,42 @@ export function loadProfilePage() {
         </div>
       </div>
 
+      <section class="profile-edit">
+        <div class="profile-section-header">
+          <h2>Edit Profile</h2>
+        </div>
+
+        <form id="editProfileForm" class="profile-edit-form">
+          <div class="form-grid">
+            <div class="form-block">
+              <label for="avatarUrl">Profile picture URL</label>
+              <input
+                type="url"
+                id="avatarUrl"
+                name="avatarUrl"
+                placeholder="https://example.com/avatar.jpg"
+              />
+            </div>
+
+            <div class="form-block form-block--full">
+              <label for="bioInput">Bio</label>
+              <textarea
+                id="bioInput"
+                name="bio"
+                rows="3"
+                placeholder="Write something about yourself..."
+              ></textarea>
+            </div>
+          </div>
+
+           <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Save Profile</button>
+            <p id="profileUpdateError" class="form-error"></p>
+            <p id="profileUpdateSuccess" class="form-success"></p>
+          </div>
+        </form>
+      </section>
+
       <section class="profile-auctions">
         <div class="profile-section-header">
           <h2>My Listings</h2>
@@ -70,6 +108,7 @@ loadProfilePage();
 
 //load profile data, listings, and bids//
 async function setupProfileLogic() {
+  console.log("setupProfileLogic running!");
   const user = getUser();
   const token = getToken();
 
@@ -87,6 +126,13 @@ async function setupProfileLogic() {
   const profileBannerEl = document.getElementById("profileBanner");
   const listingsContainer = document.getElementById("profileListings");
   const bidsContainer = document.getElementById("profileBids");
+
+  //get edit profile form elements//
+  const editProfileForm = document.getElementById("editProfileForm");
+  const avatarUrlInput = document.getElementById("avatarUrl");
+  const bioInput = document.getElementById("bioInput");
+  const profileUpdateError = document.getElementById("profileUpdateError");
+  const profileUpdateSuccess = document.getElementById("profileUpdateSuccess");
 
   //load profile info (name, credits, avatar, bio etc)//
   async function loadProfile() {
@@ -131,6 +177,87 @@ async function setupProfileLogic() {
       console.error("Error fetching profile data:", error);
     }
   }
+
+  //edit profile form submit //
+  function setupEditProfileForm() {
+  if (!editProfileForm) return;
+
+  editProfileForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!profileUpdateError || !profileUpdateSuccess) return;
+
+    profileUpdateError.textContent = "";
+    profileUpdateSuccess.textContent = "";
+
+    const avatarUrl = avatarUrlInput?.value.trim() || "";
+    const bioValue = bioInput?.value.trim() || "";
+
+    //always send bio (can be empty string)//
+    const body = {
+      bio: bioValue || "",
+    };
+
+    //only include avatar if user wrote something in the field//
+    if (avatarUrl) {
+      body.avatar = {
+        url: avatarUrl,
+        alt: `${user.name}'s avatar`,
+      };
+    }
+    //if avatarUrl is empty, we DON'T touch avatar at all//
+    //it stays whatever it already is on the profile//
+
+    try {
+      const response = await fetch(
+        `${API_BASE}/auction/profiles/${user.name}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "X-Noroff-API-Key": API_KEY,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        console.error("Failed to update profile:", result);
+        profileUpdateError.textContent =
+          result.errors?.[0]?.message || "Could not update profile.";
+        return;
+      }
+
+      const updatedProfile = result.data;
+
+      //update visible profile info//
+      bioEl.textContent = updatedProfile.bio || "No bio yet";
+      const newAvatarUrl = updatedProfile.avatar?.url || "";
+      profilePictureEl.src = newAvatarUrl;
+
+      //sync form fields//
+      if (avatarUrlInput) avatarUrlInput.value = newAvatarUrl;
+      if (bioInput) bioInput.value = updatedProfile.bio || "";
+
+      //update localStorage user//
+      const newUserData = { ...user, ...updatedProfile };
+      if (typeof saveUserData === "function") {
+        saveUserData(newUserData);
+      }
+
+      profileUpdateSuccess.textContent = "Profile updated successfully.";
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      profileUpdateError.textContent =
+        "An error occurred while saving your profile. Please try again.";
+    }
+  });
+}
+
+
 
   //load listings created by user//
   async function loadMyListings() {
@@ -197,7 +324,7 @@ async function setupProfileLogic() {
     }
   }
 
-  //load lsitings i have bid on//
+   //load lsitings i have bid on//
   async function loadMyBids() {
     if (!bidsContainer) return;
 
@@ -205,7 +332,7 @@ async function setupProfileLogic() {
 
     try {
       const response = await fetch(
-        `${API_BASE}/auction/profiles/${user.name}/bids?_listing=true`,
+        `${API_BASE}/auction/profiles/${user.name}/bids?_listings=true`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -216,6 +343,7 @@ async function setupProfileLogic() {
       );
 
       const result = await response.json();
+      console.log("bids result from API:", result);
 
       if (!response.ok) {
         console.error("Failed to fetch profile bids:", result);
@@ -223,60 +351,44 @@ async function setupProfileLogic() {
         return;
       }
 
-      let bids = result.data || [];
+      const bids = Array.isArray(result.data) ? result.data : [];
 
       if (bids.length === 0) {
         bidsContainer.innerHTML = "<p>No bids found.</p>";
         return;
       }
 
-      //fallback if listing title is missing//
-      bids = await Promise.all(
-        bids.map(async (bid) => {
-          if (bid.listing?.title) return bid;
-
-          const listingId =
-            bid.listing?.id || bid.listingId || bid.listing_id;
-
-          if (!listingId) return bid;
-
-          try {
-            const listingRes = await fetch(
-              `${API_BASE}/auction/listings/${listingId}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Noroff-API-Key": API_KEY,
-                },
-              }
-            );
-
-            const listingJson = await listingRes.json();
-
-            if (listingRes.ok && listingJson.data) {
-              return { ...bid, listing: listingJson.data };
-            }
-          } catch (error) {
-            console.error("Could not fetch listing for bid:", error);
-          }
-
-          return bid;
-        })
-      );
-
       bidsContainer.innerHTML = "";
 
       bids.forEach((bid) => {
+        console.log("single bid from API:", bid);
+
         const amount = bid.amount;
         const created = formatDateTime(bid.created);
         const listing = bid.listing || {};
-        const listingTitle = listing.title || "Unknown Listing";
+
         const listingId = listing.id;
+        //fallback if listing title is missing//
+        const listingTitle =
+          listing.title ||
+          (listingId
+            ? `Listing #${String(listingId).slice(0, 8)}`
+            : "Unknown listing");
+
+            const firstMedia = listing.media?.[0];
+        const imageUrl =
+          firstMedia?.url || "";
 
         const card = document.createElement("article");
         card.className = "profile-bid-card";
 
         card.innerHTML = `
+        <img
+            src="${imageUrl}"
+            alt="${listingTitle}"
+            class="profile-bid-image"
+          />
+
   <div class="profile-bid-content">
     <h3 class="profile-bid-title">${listingTitle}</h3>
     <p class="profile-bid-amount">Your bid: ${amount} credits</p>
@@ -285,7 +397,7 @@ async function setupProfileLogic() {
   <div class="profile-bid-actions">
     ${
       listingId
-        ? `<a href="/auction.html?id=${listingId}" class="btn btn--ghost">
+        ? `<a href="/auctions/auction.html?id=${listingId}" class="btn btn--ghost">
              View Listing
            </a>`
         : ""
@@ -301,6 +413,8 @@ async function setupProfileLogic() {
     }
   }
 
+
+
   //function to format date and time//
   function formatDateTime(dateString) {
     if (!dateString) return "Unknown";
@@ -308,6 +422,8 @@ async function setupProfileLogic() {
   }
 
   //load everythuing//
+  console.log("calling loadprofile, loadMyListings, loadMyBids");
+  setupEditProfileForm();
   await loadProfile();
   await loadMyListings();
   await loadMyBids();

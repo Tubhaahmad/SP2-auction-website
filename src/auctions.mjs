@@ -11,28 +11,32 @@ export function loadAuctionsPage() {
     if (!page) return;
 
     page.innerHTML = `
-    <section class="auction-header container">
-        <h1 class="page-title">
-            All Auctions
-        </h1>
+    <section class="auctions-page container">
+      <header class="auctions-header">
+        <h1 class="page-title">All Auctions</h1>
+      </header>
 
-        <div class="auctions-controls">
-            <form action="
-            " id="searchForm" class="auctions-search">
-            <input type="text" id="searchInput" class="auctions-search-input" placeholder="Search artworks..." aria-label="Search auctions" />
-            <button type="submit" class="btn btn--primary">Search</button>
-            </form>
+      <div class="auctions-controls">
+        <form id="searchForm" class="auctions-search">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Search artworks..." 
+            aria-label="Search auctions" 
+          />
+          <button type="submit" class="btn btn--primary">Search</button>
+        </form>
 
-            <select name="" id="sortSelect" class="auctions-sort">
-                <option value="newest">Newest</option>
-                <option value="endingSoon">Ending Soon</option>
-                <option value="mostBids">Most bids</option>
-            </select>
-        </div>
-    </section>
+        <select id="sortSelect" class="auctions-sort">
+          <option value="newest">Newest</option>
+          <option value="endingSoon">Ending Soon</option>
+          <option value="mostBids">Most bids</option>
+        </select>
+      </div>
 
-    <section class="auctions-list container">
+      <section class="auctions-list">
         <div id="listings" class="listings-grid"></div>
+      </section>
     </section>
     `;
 

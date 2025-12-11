@@ -22,159 +22,256 @@ $breakpoint-large: 1024px;
     --accent-gold:   #BFA76F;
     --text-muted:    #C5C4BE;
     --highlight:     #6E7C7C;
-    --dark-bg:       #2C2B28  
+    --dark-bg:       #2C2B28 ;
     --font-heading: "Libre Baskerville", serif;
     --font-body:    "Manrope", sans-serif; 
 }   
 
+
+
+.auctions-page {
+  padding: 3rem 0 4rem;
+}
+
+.auctions-list {
+  max-width: 1200px; 
+  margin: 0 auto;    
+}
+
+
+
 .auctions-header {
-    padding: 2rem 0;
-    text-align: center;
+  padding-bottom: 2rem;
+  text-align: center;
 }
 
 .page-title {
-    font-family: var(--font-heading);  
-    font-size: 2.5rem;
-    color: var(--text-main);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.03em;
+  font-family: var(--font-heading);
+  font-size: 2.3rem;
+  color: var(--text-main);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 
-    @media (min-width: 768px) {
-    font-size: 3rem;
+  @media (min-width: 768px) {
+    font-size: 2.8rem;
   }
 }
 
-//search//
-
 .auctions-controls {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.4rem;
+  align-items: stretch;
+  
 
-    @media (min-width: $breakpoint-sm) {
-        flex-direction: row;
-        justify-content: space-between;
-    }
+  @media (min-width: $breakpoint-sm) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 576px) {
+    padding-inline: 1.25rem; 
+  }
+
+  
+  .listings-grid {
+    padding-inline: 1.25rem;
+  }
 }
 
-.auctiions-search input {
-    padding: 0.7rem 1rem;
-  border: 1px solid var(--text-secondary);
-  border-radius: 6px;
-  font-family: var(--font-body);
-  background-color: white;
-  width: 240px;
 
-    &:focus {
-        border-color: 1px solid var(--accent-gold);
-        box-shadow: 0 0 5px rgba($color-accent, 0.90);
-    }
+
+
+.auctions-controls,
+.listings-grid {
+  max-width: 1000px; 
+  margin-inline: auto;
+}
+
+.auctions-search {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem; 
+  width: 100%;
+  max-width: 360px; 
+  
+
+  @media (min-width: $breakpoint-sm) {
+    max-width: 280px;
+  }
+}
+
+.auctions-search input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--text-muted);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background-color: #fff;
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px rgba(191, 167, 111, 0.2);
+  }
+}
+
+.auctions-search .btn {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding-inline: 1.2rem;
 }
 
 .auctions-sort {
   padding: 0.7rem 1rem;
-  border-radius: 6px;
-  border: 1px solid var(--text-secondary);
-  background-color: white;
+  border-radius: 999px;
+  border: 1px solid var(--text-muted);
+  background-color: #fff;
   font-family: var(--font-body);
+  font-size: 0.95rem;
 }
 
-.listings-grid {
-    display: grid;
-  gap: 1.8rem;
-  padding-bottom: 4rem;
 
+.listings-grid {
+  display: grid;
+  gap: 1rem;
+  padding-bottom: 4rem;
   grid-template-columns: repeat(1, 1fr);
 
-   @media (min-width: 600px) {
+  @media (min-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 992px) {
     grid-template-columns: repeat(4, 1fr);
+    gap: 1.8rem;
   }
 }
 
-.listing-card h2 {
-    display: flex;
-    justify-content: center;
-    font-family: var(--font-heading);
-    font-size: 1.70rem;
-    color: var(--text-main);
-    margin: 0.75rem 1rem;
-    letter-spacing: 0.02em;
-}
+
 
 .listing-card {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    background: rgb(255, 255, 255);
-  border-radius: 10px;
-  border: 1px solid #e5e5e5;
+  background: #ffffff;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
   overflow: hidden;
-  max-width: 300px;
 
+  display: flex;
+  flex-direction: column;
+  max-width: 260px;
+  margin: 0 auto;
 
-   box-shadow: 0 3px 15px rgba(0,0,0,0.06);
-   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
 }
 
 .listing-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 6px 22px rgba(0,0,0,0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
 
-//image//
+
+
+.listing-image-wrapper {
+  width: 100%;
+  background: #d9d7cf;
+  padding: 0.5rem;
+}
+
 .listing-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
 }
 
-//card body//
+.listing-card:hover .listing-image {
+  transform: scale(1.03);
+}
+
+
+
 .listing-content {
-    padding: 1rem;
+  padding: 1rem 1.25rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.listing-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-main);
+  margin: 0 0 0.25rem 0;
 }
 
 .listing-artist {
   font-family: var(--font-body);
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.6rem;
 }
 
-//meta info//
+
+
 .listing-bids,
 .listing-ends {
-    font-family: var(--font-body);
-    color: var(--text-main);
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-}
-
-.listing-view-btn {
-   display: inline-block;
-   justify-content: center;
-  margin-top: 0.8rem;
-  text-decoration: none; 
-  padding: 0.6rem 1.1rem;
   font-family: var(--font-body);
   font-size: 0.9rem;
+  margin: 0;
+}
+
+.listing-bids {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.listing-ends {
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+
+
+.listing-view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.9rem;
+  padding: 0.6rem 1.4rem;
+
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  border-radius: 999px;
   border: 1px solid var(--accent-gold);
   color: var(--accent-gold);
-  border-radius: 6px;
-  transition: all 0.25s ease;
-  max-width: 190px;
-    
+  background: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
 
 .listing-view-btn:hover {
   background-color: var(--accent-gold);
-  color: white;
+  color: #ffffff;
+  border-color: var(--accent-gold);
 }
+
 
 .no-results {
   grid-column: 1 / -1;
@@ -182,4 +279,5 @@ $breakpoint-large: 1024px;
   font-family: var(--font-body);
   color: var(--text-secondary);
   margin-top: 2rem;
+  font-size: 0.95rem;
 }
