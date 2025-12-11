@@ -2,6 +2,8 @@ import "../src/scss/styles.scss";
 import { loadNavbar } from "../src/navbar.mjs";
 import { getUser, getToken, saveUserData } from "../src/auth.mjs";
 
+console.log("✅ profile.mjs loaded");
+
 const API_BASE = "https://v2.api.noroff.dev";
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
@@ -106,6 +108,7 @@ loadProfilePage();
 
 //load profile data, listings, and bids//
 async function setupProfileLogic() {
+  console.log("setupProfileLogic running!");
   const user = getUser();
   const token = getToken();
 
@@ -321,7 +324,7 @@ async function setupProfileLogic() {
     }
   }
 
-  //load lsitings i have bid on//
+   //load lsitings i have bid on//
   async function loadMyBids() {
     if (!bidsContainer) return;
 
@@ -329,7 +332,7 @@ async function setupProfileLogic() {
 
     try {
       const response = await fetch(
-        `${API_BASE}/auction/profiles/${user.name}/bids?_listing=true`,
+        `${API_BASE}/auction/profiles/${user.name}/bids?_listings=true`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -340,6 +343,7 @@ async function setupProfileLogic() {
       );
 
       const result = await response.json();
+      console.log("bids result from API:", result);
 
       if (!response.ok) {
         console.error("Failed to fetch profile bids:", result);
@@ -347,60 +351,44 @@ async function setupProfileLogic() {
         return;
       }
 
-      let bids = result.data || [];
+      const bids = Array.isArray(result.data) ? result.data : [];
 
       if (bids.length === 0) {
         bidsContainer.innerHTML = "<p>No bids found.</p>";
         return;
       }
 
-      //fallback if listing title is missing//
-      bids = await Promise.all(
-        bids.map(async (bid) => {
-          if (bid.listing?.title) return bid;
-
-          const listingId =
-            bid.listing?.id || bid.listingId || bid.listing_id;
-
-          if (!listingId) return bid;
-
-          try {
-            const listingRes = await fetch(
-              `${API_BASE}/auction/listings/${listingId}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Noroff-API-Key": API_KEY,
-                },
-              }
-            );
-
-            const listingJson = await listingRes.json();
-
-            if (listingRes.ok && listingJson.data) {
-              return { ...bid, listing: listingJson.data };
-            }
-          } catch (error) {
-            console.error("Could not fetch listing for bid:", error);
-          }
-
-          return bid;
-        })
-      );
-
       bidsContainer.innerHTML = "";
 
       bids.forEach((bid) => {
+        console.log("single bid from API:", bid);
+
         const amount = bid.amount;
         const created = formatDateTime(bid.created);
         const listing = bid.listing || {};
-        const listingTitle = listing.title || "Unknown Listing";
+
         const listingId = listing.id;
+        //fallback if listing title is missing//
+        const listingTitle =
+          listing.title ||
+          (listingId
+            ? `Listing #${String(listingId).slice(0, 8)}`
+            : "Unknown listing");
+
+            const firstMedia = listing.media?.[0];
+        const imageUrl =
+          firstMedia?.url || "";
 
         const card = document.createElement("article");
         card.className = "profile-bid-card";
 
         card.innerHTML = `
+        <img
+            src="${imageUrl}"
+            alt="${listingTitle}"
+            class="profile-bid-image"
+          />
+
   <div class="profile-bid-content">
     <h3 class="profile-bid-title">${listingTitle}</h3>
     <p class="profile-bid-amount">Your bid: ${amount} credits</p>
@@ -409,7 +397,7 @@ async function setupProfileLogic() {
   <div class="profile-bid-actions">
     ${
       listingId
-        ? `<a href="/auction.html?id=${listingId}" class="btn btn--ghost">
+        ? `<a href="/auctions/auction.html?id=${listingId}" class="btn btn--ghost">
              View Listing
            </a>`
         : ""
@@ -425,6 +413,8 @@ async function setupProfileLogic() {
     }
   }
 
+
+
   //function to format date and time//
   function formatDateTime(dateString) {
     if (!dateString) return "Unknown";
@@ -432,6 +422,7 @@ async function setupProfileLogic() {
   }
 
   //load everythuing//
+  console.log("calling loadprofile, loadMyListings, loadMyBids");
   setupEditProfileForm();
   await loadProfile();
   await loadMyListings();
