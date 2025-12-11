@@ -14,7 +14,7 @@
 .profile-header {
     
     text-align: center;
-    border-radius: 16px;
+    
   overflow: hidden;
     margin-bottom: 3rem;
 
@@ -123,6 +123,67 @@
   }
 }
 
+.profile-edit {
+  margin-top: 2rem;;
+}
+
+.profile-edit-form {
+  max-width: 480px;
+  margin-top: 1rem;
+}
+
+
+/* button + messages container */
+.profile-edit .form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+
+
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+
+.profile-edit .btn.btn--primary {
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.profile-edit .btn.btn--primary {
+  border-radius: 999px;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+
+.profile-edit .form-success,
+.profile-edit .form-error {
+  font-family: $font-body;
+  font-size: 0.85rem;
+}
+
+.profile-edit .form-success {
+  color: #3b7a4a; 
+  padding-top: 0.1rem;
+}
+
+.profile-edit .form-error {
+  color: #b00020;
+  padding-top: 0.1rem;
+}
+
+
+
+
 //'My Listings' and 'My Bids' section//
 
 .profile-section-header {
@@ -167,6 +228,7 @@
 .profile-listings-grid {
     display: grid;
   gap: 1.5rem;
+  justify-content: center;
 
   @media (min-width: $breakpoint-sm) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
