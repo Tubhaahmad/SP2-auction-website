@@ -1,13 +1,13 @@
 @use '../variables' as *;
 
-.register-page {
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--bg-main);
 }
 
-.register-container {
+.login-container {
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 1.2rem;
@@ -23,17 +23,26 @@
   text-align: left;
 }
 
-.register-heading {
+.login-container h1 {
+  font-family: var(--font-heading);
+  color: $color-charcoal;
+
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+}
+
+.login-heading {
   font-family: $font-heading;
   font-size: 1.5rem;
   color: $color-text;
   margin: 0 auto;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  text-align: center;
 }
 
-.register-subtitle {
+.login-subtitle {
   font-family: $font-body;
   font-size: 0.75rem;
   color: $color-soft;
@@ -43,7 +52,7 @@
   letter-spacing: 0.1em;
 }
 
-.register-form {
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -53,7 +62,7 @@
   font-size: 0.75rem;
 }
 
-.register-form input {
+.login-form input {
   border-radius: 999px;
   border: 1px solid $color-muted;
   padding: 0.75rem 1rem;
@@ -73,7 +82,7 @@
   }
 }
 
-.register-btn {
+.login-btn {
   margin-top: 0.5rem;
   border-radius: 999px;
   border: 1px solid $color-accent;
@@ -103,7 +112,18 @@
   }
 }
 
-.login-link {
+@media (max-width: $breakpoint-sm) {
+  .login-container {
+    padding: 2.1rem 1.6rem 2rem;
+    border-radius: 1.25rem;
+  }
+
+  .login-heading {
+    font-size: 1.35rem;
+  }
+}
+
+.register-link {
   margin-top: 1rem;
   font-family: $font-body;
   font-size: 0.75rem;
@@ -114,23 +134,12 @@
 
   a {
     color: $color-accent;
-    text-decoration: underline;
-    font-family: $font-body;
+    text-decoration: line;
+    font-style: $font-body;
     font-weight: 550;
 
     &:hover {
       text-decoration: underline;
     }
-  }
-}
-
-@media (max-width: $breakpoint-sm) {
-  .register-container {
-    padding: 2.1rem 1.6rem 2rem;
-    border-radius: 1.25rem;
-  }
-
-  .register-heading {
-    font-size: 1.35rem;
   }
 }

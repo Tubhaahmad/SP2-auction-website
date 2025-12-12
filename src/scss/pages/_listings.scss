@@ -1,12 +1,10 @@
-
-    // Color Variables
-$color-bg:       #F8F7F3; // bg-color
-$color-text:     #1C1C1C; // primary text
-$color-accent:   #BFA76F; // gold accent
-$color-muted:    #C5C4BE; // lines and borders
-$color-soft:     #6E7C7C; // highlight
-$color-charcoal: #2C2B28; // dark-bg
-
+// Color Variables
+$color-bg: #f8f7f3; // bg-color
+$color-text: #1c1c1c; // primary text
+$color-accent: #bfa76f; // gold accent
+$color-muted: #c5c4be; // lines and borders
+$color-soft: #6e7c7c; // highlight
+$color-charcoal: #2c2b28; // dark-bg
 
 // Font Variables
 $font-heading: "Libre Baskerville", serif;
@@ -17,28 +15,24 @@ $breakpoint-sm: 768px;
 $breakpoint-large: 1024px;
 
 :root {
-    --bg-main:       #F8F7F3;
-    --text-main:     #1C1C1C;
-    --accent-gold:   #BFA76F;
-    --text-muted:    #C5C4BE;
-    --highlight:     #6E7C7C;
-    --dark-bg:       #2C2B28 ;
-    --font-heading: "Libre Baskerville", serif;
-    --font-body:    "Manrope", sans-serif; 
-}   
-
-
+  --bg-main: #f8f7f3;
+  --text-main: #1c1c1c;
+  --accent-gold: #bfa76f;
+  --text-muted: #c5c4be;
+  --highlight: #6e7c7c;
+  --dark-bg: #2c2b28;
+  --font-heading: "Libre Baskerville", serif;
+  --font-body: "Manrope", sans-serif;
+}
 
 .auctions-page {
   padding: 3rem 0 4rem;
 }
 
 .auctions-list {
-  max-width: 1200px; 
-  margin: 0 auto;    
+  max-width: 1200px;
+  margin: 0 auto;
 }
-
-
 
 .auctions-header {
   padding-bottom: 2rem;
@@ -64,7 +58,6 @@ $breakpoint-large: 1024px;
   gap: 1.5rem;
   margin-bottom: 2.4rem;
   align-items: stretch;
-  
 
   @media (min-width: $breakpoint-sm) {
     flex-direction: row;
@@ -73,31 +66,26 @@ $breakpoint-large: 1024px;
   }
 
   @media (max-width: 576px) {
-    padding-inline: 1.25rem; 
+    padding-inline: 1.25rem;
   }
 
-  
   .listings-grid {
     padding-inline: 1.25rem;
   }
 }
 
-
-
-
 .auctions-controls,
 .listings-grid {
-  max-width: 1000px; 
+  max-width: 1000px;
   margin-inline: auto;
 }
 
 .auctions-search {
   display: flex;
   align-items: stretch;
-  gap: 0.5rem; 
+  gap: 0.5rem;
   width: 100%;
-  max-width: 360px; 
-  
+  max-width: 360px;
 
   @media (min-width: $breakpoint-sm) {
     max-width: 280px;
@@ -113,7 +101,9 @@ $breakpoint-large: 1024px;
   font-size: 0.95rem;
   background-color: #fff;
   outline: none;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 
   &:focus {
     border-color: var(--accent-gold);
@@ -136,7 +126,6 @@ $breakpoint-large: 1024px;
   font-size: 0.95rem;
 }
 
-
 .listings-grid {
   display: grid;
   gap: 1rem;
@@ -153,8 +142,6 @@ $breakpoint-large: 1024px;
   }
 }
 
-
-
 .listing-card {
   background: #ffffff;
   border-radius: 1rem;
@@ -167,16 +154,15 @@ $breakpoint-large: 1024px;
   margin: 0 auto;
 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .listing-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
 }
-
-
 
 .listing-image-wrapper {
   width: 100%;
@@ -196,8 +182,6 @@ $breakpoint-large: 1024px;
 .listing-card:hover .listing-image {
   transform: scale(1.03);
 }
-
-
 
 .listing-content {
   padding: 1rem 1.25rem 0.2rem;
@@ -225,8 +209,6 @@ $breakpoint-large: 1024px;
   margin-bottom: 0.6rem;
 }
 
-
-
 .listing-bids,
 .listing-ends {
   font-family: var(--font-body);
@@ -243,8 +225,6 @@ $breakpoint-large: 1024px;
   color: var(--text-muted);
   margin-top: 0.25rem;
 }
-
-
 
 .listing-view-btn {
   display: inline-flex;
@@ -263,7 +243,10 @@ $breakpoint-large: 1024px;
   border: 1px solid var(--accent-gold);
   color: var(--accent-gold);
   background: transparent;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .listing-view-btn:hover {
@@ -271,7 +254,6 @@ $breakpoint-large: 1024px;
   color: #ffffff;
   border-color: var(--accent-gold);
 }
-
 
 .no-results {
   grid-column: 1 / -1;

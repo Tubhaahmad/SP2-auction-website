@@ -93,7 +93,7 @@ async function setupEditListingLogic(listingId) {
             Authorization: `Bearer ${token}`,
             "X-Noroff-API-Key": API_KEY,
           },
-        }
+        },
       );
 
       const result = await response.json();
@@ -245,7 +245,10 @@ async function setupEditListingLogic(listingId) {
 
         const tagsInput = form.tags.value.trim();
         const userTags = tagsInput
-          ? tagsInput.split(",").map((t) => t.trim()).filter(Boolean)
+          ? tagsInput
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean)
           : [];
 
         const tags = Array.from(new Set(["artevia", ...userTags]));
@@ -272,7 +275,7 @@ async function setupEditListingLogic(listingId) {
                 Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify(updatedListing),
-            }
+            },
           );
 
           const updateJson = await updateResponse.json();
@@ -296,7 +299,7 @@ async function setupEditListingLogic(listingId) {
       if (deleteBtn) {
         deleteBtn.addEventListener("click", async () => {
           const confirmDelete = confirm(
-            "Are you sure you want to delete this listing?"
+            "Are you sure you want to delete this listing?",
           );
           if (!confirmDelete) return;
 
@@ -310,7 +313,7 @@ async function setupEditListingLogic(listingId) {
                   "X-Noroff-API-Key": API_KEY,
                   Authorization: `Bearer ${token}`,
                 },
-              }
+              },
             );
 
             if (!deleteResponse.ok) {
@@ -342,5 +345,3 @@ async function setupEditListingLogic(listingId) {
   //run when page loads//
   loadListingToEdit();
 }
-
-

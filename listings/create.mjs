@@ -197,7 +197,10 @@ function setupCreateListingForm() {
     const tagsInput = form.tags.value.trim();
 
     const tagsFromUser = tagsInput
-      ? tagsInput.split(",").map((tag) => tag.trim()).filter(Boolean)
+      ? tagsInput
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean)
       : [];
 
     const tags = Array.from(new Set(["artevia", ...tagsFromUser]));
@@ -245,5 +248,3 @@ function setupCreateListingForm() {
     }
   });
 }
-
-
