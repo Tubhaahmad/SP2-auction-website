@@ -1,49 +1,48 @@
-import "./scss/styles.scss";
-import { loadNavbar } from "./navbar.mjs";
-import { getUser, getToken } from "./auth.mjs";
+import './scss/styles.scss';
+import { loadNavbar } from './navbar.mjs';
+import { getUser, getToken } from './auth.mjs';
 
-const API_BASE = "https://v2.api.noroff.dev";
+const API_BASE = 'https://v2.api.noroff.dev';
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
 loadNavbar();
 
 //load auction page structure//
 export function loadAuctionPage() {
-  const page = document.getElementById("auctionPage");
+  const page = document.getElementById('auctionPage');
   if (!page) return;
 
   page.innerHTML = `
-     <section class="auction-detail container">
+     <section class="auction-detail container" aria-label="Auction Details">
     <div class="auction-layout">
       <div class="auction-image-wrapper">
         <img id="auctionImage" alt="Artwork Image" class="auction-image" />
       </div>
 
       <div class="auction-info">
-        <h1 id="auctionTitle" class="auction-title"></h1>
-        <p id="auctionArtist" class="auction-artist"></p>
-        <p id="auctionSeller" class="auction-seller"></p>
+        <h1 id="auctionTitle" class="auction-title" aria-label="Auction Title"></h1>
+        <p id="auctionArtist" class="auction-artist" aria-label="Auction Artist"></p>
+        <p id="auctionSeller" class="auction-seller" aria-label="Auction Seller"></p>
 
-        <p id="auctionEnds" class="auction-ends"></p>
-        <p id="auctionEndsExact" class="auction-ends-exact"></p>
-
-        <p id="auctionDescription" class="auction-description"></p>
+        <p id="auctionEnds" class="auction-ends" aria-label="Auction Ends"></p>
+        <p id="auctionEndsExact" class="auction-ends-exact" aria-label="Auction Ends Exact"></p>
+        <p id="auctionDescription" class="auction-description" aria-label="Auction Description"></p>
 
         <div class="auction-meta">
-          <p id="auctionBidsCount" class="auction-bids-count"></p>
+          <p id="auctionBidsCount" class="auction-bids-count" aria-label="Auction Bids Count"></p>
         </div>
       </div>
     </div>
 
     <!-- FULL-WIDTH BID HISTORY -->
-    <section class="auction-bids-history">
+    <section class="auction-bids-history" aria-label="Bid History">
       <h2 class="section-title">Bid History</h2>
-      <ul id="bidsList" class="bids-list"></ul>
+      <ul id="bidsList" class="bids-list" aria-label="List of Bids"></ul>
     </section>
 
     <!-- FULL-WIDTH PLACE-BID CARD -->
-    <section class="auction-bid-section-wrapper">
-      <div id="bidSection"></div>
+    <section class="auction-bid-section-wrapper" aria-label="Place a Bid Section">
+      <div id="bidSection" aria-label="Bid Section"></div>
     </section>
   </section>
   `;
@@ -55,11 +54,11 @@ loadAuctionPage();
 
 //load listing information//
 async function setupAuctionLogic() {
-  const page = document.getElementById("auctionPage");
+  const page = document.getElementById('auctionPage');
 
   //getting listing id from url//
   const params = new URLSearchParams(window.location.search);
-  const listingId = params.get("id");
+  const listingId = params.get('id');
 
   //if no ID, show error//
   if (!listingId) {
@@ -72,16 +71,16 @@ async function setupAuctionLogic() {
   }
 
   //fetching all DOM elements//
-  const titleEl = document.getElementById("auctionTitle");
-  const artistEl = document.getElementById("auctionArtist");
-  const sellerEl = document.getElementById("auctionSeller");
-  const imageEl = document.getElementById("auctionImage");
-  const endsEl = document.getElementById("auctionEnds");
-  const endsExactEl = document.getElementById("auctionEndsExact");
-  const descriptionEl = document.getElementById("auctionDescription");
-  const bidsCountEl = document.getElementById("auctionBidsCount");
-  const bidsListEl = document.getElementById("bidsList");
-  const bidSectionEl = document.getElementById("bidSection");
+  const titleEl = document.getElementById('auctionTitle');
+  const artistEl = document.getElementById('auctionArtist');
+  const sellerEl = document.getElementById('auctionSeller');
+  const imageEl = document.getElementById('auctionImage');
+  const endsEl = document.getElementById('auctionEnds');
+  const endsExactEl = document.getElementById('auctionEndsExact');
+  const descriptionEl = document.getElementById('auctionDescription');
+  const bidsCountEl = document.getElementById('auctionBidsCount');
+  const bidsListEl = document.getElementById('bidsList');
+  const bidSectionEl = document.getElementById('bidSection');
 
   let currentListing = null;
   let highestBid = 0; //tracking the highest bid
@@ -91,11 +90,11 @@ async function setupAuctionLogic() {
     try {
       //fetching listing inc. seller and bids//
       const response = await fetch(
-        `${API_BASE}/auction/listings/${listingId}?_seller=true&_bids=true`,
+        `${API_BASE}/auction/listings/${listingId}?_seller=true&_bids=true`
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch listing data.");
+        throw new Error('Failed to fetch listing data.');
       }
 
       const result = await response.json();
@@ -103,42 +102,38 @@ async function setupAuctionLogic() {
       currentListing = listing;
 
       //displaying listing data//
-      const firstMedia =
-        listing.media && listing.media.length > 0 ? listing.media[0] : null;
+      const firstMedia = listing.media && listing.media.length > 0 ? listing.media[0] : null;
 
       //fill in page details//
-      titleEl.textContent = listing.title || "No Title";
+      titleEl.textContent = listing.title || 'No Title';
 
-      const sellerName = listing.seller?.name || "Unknown Seller";
+      const sellerName = listing.seller?.name || 'Unknown Seller';
       artistEl.textContent = `By: ${sellerName}`;
       sellerEl.textContent = `Seller: ${sellerName}`;
 
-      descriptionEl.textContent = listing.description || "No Description";
+      descriptionEl.textContent = listing.description || 'No Description';
 
       endsEl.textContent = `Ends in: ${formatEndsIn(listing.endsAt)}`;
       const endsDate = listing.endsAt ? new Date(listing.endsAt) : null;
       endsExactEl.textContent = endsDate
         ? `Ends at: ${endsDate.toLocaleString()}`
-        : "Ends at: Unknown";
+        : 'Ends at: Unknown';
 
       //display image//
-      imageEl.src = firstMedia ? firstMedia.url || "" : "";
-      imageEl.alt = firstMedia
-        ? listing.title || "Artwork Image"
-        : "No Image Available";
+      imageEl.src = firstMedia ? firstMedia.url || '' : '';
+      imageEl.alt = firstMedia ? listing.title || 'Artwork Image' : 'No Image Available';
 
       //display bids count//
       const bids = listing.bids || [];
       bidsCountEl.textContent = `Total Bids: ${bids.length}`;
 
-      highestBid =
-        bids.length > 0 ? Math.max(...bids.map((bid) => bid.amount)) : 0;
+      highestBid = bids.length > 0 ? Math.max(...bids.map((bid) => bid.amount)) : 0;
 
       //render bid history + bid form//
       renderBids(bids);
       renderBidSection();
     } catch (error) {
-      console.error("Error loading listing:", error);
+      console.error('Error loading listing:', error);
       page.innerHTML = `
         <section class="container">
           <p>Error loading auction details. Please try again later.</p>
@@ -149,23 +144,21 @@ async function setupAuctionLogic() {
 
   //render bid history//
   function renderBids(bids) {
-    bidsListEl.innerHTML = "";
+    bidsListEl.innerHTML = '';
 
     if (!bids || bids.length === 0) {
-      bidsListEl.innerHTML = "<li>No bids yet. Be the first to bid.</li>";
+      bidsListEl.innerHTML = '<li>No bids yet. Be the first to bid.</li>';
       return;
     }
 
     //sort newest to oldest//
-    const sorted = [...bids].sort(
-      (a, b) => new Date(b.created) - new Date(a.created),
-    );
+    const sorted = [...bids].sort((a, b) => new Date(b.created) - new Date(a.created));
 
     sorted.forEach((bid) => {
-      const li = document.createElement("li");
-      li.className = "bid-item";
+      const li = document.createElement('li');
+      li.className = 'bid-item';
 
-      const bidderName = bid.bidder?.name || "Anonymous";
+      const bidderName = bid.bidder?.name || 'Anonymous';
       const created = formatDateTime(bid.created);
 
       li.innerHTML = `
@@ -185,8 +178,7 @@ async function setupAuctionLogic() {
     const user = getUser();
     const token = getToken();
 
-    const ended =
-      currentListing && new Date(currentListing.endsAt).getTime() < Date.now();
+    const ended = currentListing && new Date(currentListing.endsAt).getTime() < Date.now();
 
     //if not logged in, show login prompt//
     if (!token) {
@@ -224,22 +216,22 @@ async function setupAuctionLogic() {
       </form>
     `;
 
-    const bidForm = document.getElementById("bidForm");
+    const bidForm = document.getElementById('bidForm');
     if (!bidForm) return;
 
-    const bidInput = document.getElementById("bidAmount");
-    const bidError = document.getElementById("bidError");
+    const bidInput = document.getElementById('bidAmount');
+    const bidError = document.getElementById('bidError');
 
     //handle bid submit//
-    bidForm.addEventListener("submit", async (event) => {
+    bidForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      bidError.textContent = "";
+      bidError.textContent = '';
 
       const bidAmount = Number(bidInput.value.trim());
 
       //check if bid amount is valid//
       if (isNaN(bidAmount)) {
-        bidError.textContent = "Please enter a valid bid amount.";
+        bidError.textContent = 'Please enter a valid bid amount.';
         return;
       }
 
@@ -251,54 +243,49 @@ async function setupAuctionLogic() {
 
       const freshToken = getToken();
       if (!freshToken) {
-        bidError.textContent = "You must be logged in to place a bid.";
+        bidError.textContent = 'You must be logged in to place a bid.';
         return;
       }
 
       try {
-        const response = await fetch(
-          `${API_BASE}/auction/listings/${currentListing.id}/bids`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${freshToken}`,
-              "X-Noroff-API-Key": API_KEY,
-            },
-            body: JSON.stringify({ amount: bidAmount }),
+        const response = await fetch(`${API_BASE}/auction/listings/${currentListing.id}/bids`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${freshToken}`,
+            'X-Noroff-API-Key': API_KEY,
           },
-        );
+          body: JSON.stringify({ amount: bidAmount }),
+        });
 
         const data = await response.json();
 
         if (!response.ok) {
-          console.error("Bid error:", data);
+          console.error('Bid error:', data);
           bidError.textContent =
-            data.errors?.[0]?.message ||
-            "Failed to place bid. Please try again.";
+            data.errors?.[0]?.message || 'Failed to place bid. Please try again.';
           return;
         }
 
         //if bid worked, clear input and reload listing//
-        bidInput.value = "";
+        bidInput.value = '';
         loadListing(); // reload to update bids and highest
       } catch (error) {
-        console.error("Error placing bid:", error);
-        bidError.textContent =
-          "An error occurred while placing your bid. Please try again later.";
+        console.error('Error placing bid:', error);
+        bidError.textContent = 'An error occurred while placing your bid. Please try again later.';
       }
     });
   }
 
   //format time remaining - ends in//
   function formatEndsIn(endsAt) {
-    if (!endsAt) return "Unknown";
+    if (!endsAt) return 'Unknown';
 
     const endDate = new Date(endsAt).getTime();
     const now = new Date().getTime();
     const diffMs = endDate - now;
 
-    if (diffMs <= 0) return "Ended";
+    if (diffMs <= 0) return 'Ended';
 
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const days = Math.floor(hours / 24);
@@ -313,7 +300,7 @@ async function setupAuctionLogic() {
 
   //format date time for bids//
   function formatDateTime(dateString) {
-    if (!dateString) return "Unknown time";
+    if (!dateString) return 'Unknown time';
     return new Date(dateString).toLocaleString();
   }
 
