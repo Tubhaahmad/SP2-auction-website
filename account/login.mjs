@@ -2,8 +2,6 @@ import { loadNavbar } from "../src/navbar.mjs";
 
 import "../src/scss/styles.scss";
 
-
-
 loadNavbar();
 
 console.log("Login page is working!!!!!!");

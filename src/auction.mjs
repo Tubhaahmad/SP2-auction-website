@@ -91,7 +91,7 @@ async function setupAuctionLogic() {
     try {
       //fetching listing inc. seller and bids//
       const response = await fetch(
-        `${API_BASE}/auction/listings/${listingId}?_seller=true&_bids=true`
+        `${API_BASE}/auction/listings/${listingId}?_seller=true&_bids=true`,
       );
 
       if (!response.ok) {
@@ -158,7 +158,7 @@ async function setupAuctionLogic() {
 
     //sort newest to oldest//
     const sorted = [...bids].sort(
-      (a, b) => new Date(b.created) - new Date(a.created)
+      (a, b) => new Date(b.created) - new Date(a.created),
     );
 
     sorted.forEach((bid) => {
@@ -186,8 +186,7 @@ async function setupAuctionLogic() {
     const token = getToken();
 
     const ended =
-      currentListing &&
-      new Date(currentListing.endsAt).getTime() < Date.now();
+      currentListing && new Date(currentListing.endsAt).getTime() < Date.now();
 
     //if not logged in, show login prompt//
     if (!token) {
@@ -267,7 +266,7 @@ async function setupAuctionLogic() {
               "X-Noroff-API-Key": API_KEY,
             },
             body: JSON.stringify({ amount: bidAmount }),
-          }
+          },
         );
 
         const data = await response.json();
@@ -321,4 +320,3 @@ async function setupAuctionLogic() {
   //run the first load//
   await loadListing();
 }
-

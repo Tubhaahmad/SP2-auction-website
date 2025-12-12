@@ -1,11 +1,10 @@
 import { getToken, getUser, logoutUser, saveUserData } from "./auth.mjs";
 
-
 const API_BASE = "https://v2.api.noroff.dev";
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
 export function loadNavbar() {
-  const header = document.querySelector('header');
+  const header = document.querySelector("header");
   if (!header) return;
 
   header.innerHTML = `
@@ -56,7 +55,7 @@ function updateNavbar() {
     loginLink.style.display = "none";
     registerLink.style.display = "none";
     divider.style.display = "none";
-    
+
     profileLink.style.display = "inline";
     createLink.style.display = "inline";
 
@@ -65,7 +64,7 @@ function updateNavbar() {
 
     logoutBtn.addEventListener("click", (event) => {
       logoutUser();
-      alert ("You have been logged out.");
+      alert("You have been logged out.");
       window.location.href = "/index.html";
     });
 
@@ -74,15 +73,11 @@ function updateNavbar() {
     loginLink.style.display = "inline";
     registerLink.style.display = "inline";
     divider.style.display = "inline";
-   
 
     profileLink.style.display = "none";
     createLink.style.display = "none";
     logoutBtn.style.display = "none";
     createLink.style.display = "none";
-
-
-
 
     const creditsEl = document.getElementById("navbar-credits");
     if (creditsEl) {
@@ -103,8 +98,8 @@ function showNavbarCredits() {
     return;
   }
 
-//initial display before fetch//
-const currentCredits = typeof user.credits === "number" ? user.credits : "0";
+  //initial display before fetch//
+  const currentCredits = typeof user.credits === "number" ? user.credits : "0";
   creditsEl.textContent = `Credits: ${currentCredits}`;
 
   //fetch latest credits//
@@ -119,20 +114,17 @@ async function fetchProfileCredits(creditsEl) {
   if (!API_KEY) {
     console.error("API key is missing.");
     return;
-}
+  }
   try {
-    const response = await fetch(
-      `${API_BASE}/auction/profiles/${user.name}`, 
-      {
+    const response = await fetch(`${API_BASE}/auction/profiles/${user.name}`, {
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
         "X-Noroff-API-Key": API_KEY,
       },
-    }
-  );
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
     if (!response.ok) {
       console.error("Failed to fetch profile credits:", data);
@@ -146,14 +138,10 @@ async function fetchProfileCredits(creditsEl) {
     const updatedUser = { ...user, ...updatedProfile };
     saveUserData(updatedUser);
 
-    const credits = typeof updatedProfile.credits === "number" ? updatedProfile.credits : "0";
+    const credits =
+      typeof updatedProfile.credits === "number" ? updatedProfile.credits : "0";
     creditsEl.textContent = `Credits: ${credits}`;
   } catch (error) {
     console.error("Error fetching profile credits:", error);
   }
 }
-
-
-
-
-

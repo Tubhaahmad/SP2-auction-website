@@ -1,49 +1,46 @@
 @use "../variables" as *;
 
-
 .profile-page {
-    background-color: #efeee9;
-    padding: 4rem 1.5rem;
+  background-color: #efeee9;
+  padding: 4rem 1.5rem;
 
-    @media (min-width: $breakpoint-sm) {
-        padding: 5rem 3rem;
-    }
+  @media (min-width: $breakpoint-sm) {
+    padding: 5rem 3rem;
+  }
 }
 
-
 .profile-header {
-    
-    text-align: center;
-    
+  text-align: center;
+
   overflow: hidden;
-    margin-bottom: 3rem;
+  margin-bottom: 3rem;
 
-    h1 {
-        font-family: $font-heading;
-        font-size: 2rem;
-        color: $color-text;
-        margin-bottom: 0.5rem;
+  h1 {
+    font-family: $font-heading;
+    font-size: 2rem;
+    color: $color-text;
+    margin-bottom: 0.5rem;
 
-        @media (min-width: $breakpoint-sm) {
-            font-size: 2.5rem;
-        }
+    @media (min-width: $breakpoint-sm) {
+      font-size: 2.5rem;
     }
+  }
 
-    .profile-credits {
-        font-size: 1rem;
-        font-family: $font-body;
-        color: $color-accent;
-    }
+  .profile-credits {
+    font-size: 1rem;
+    font-family: $font-body;
+    color: $color-accent;
+  }
 }
 
 .profile-card {
-    background: #fff;
+  background: #fff;
   border: 1px solid $color-muted;
   border-radius: 12px;
 }
 
 .profile-img-wrapper {
-    display: flex;
+  display: flex;
   justify-content: center;
 
   @media (min-width: $breakpoint-sm) {
@@ -52,7 +49,7 @@
 }
 
 .profile-img {
-    width: 110px;
+  width: 110px;
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
@@ -60,78 +57,77 @@
   background: $color-bg;
 
   outline: 2px solid transparent;
-  transition: outline-color 0.25s ease, transform 0.25s ease;
+  transition:
+    outline-color 0.25s ease,
+    transform 0.25s ease;
 
-    &:hover {
-        outline-color: $color-accent;
-        transition: translateY(-1px);
-    }
-    @media (min-width: $breakpoint-sm) {
+  &:hover {
+    outline-color: $color-accent;
+    transition: translateY(-1px);
+  }
+  @media (min-width: $breakpoint-sm) {
     width: 128px;
     height: 128px;
-    }
+  }
 }
 
 .profile-text-info {
-    text-align: center;
-    margin-top: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 
-    @media (min-width: $breakpoint-sm) {
-        text-align: left;
-    }
+  @media (min-width: $breakpoint-sm) {
+    text-align: left;
+  }
 }
 
 .profile-name {
-    font-family: $font-heading;
-    font-size: 1.9rem;
-    letter-spacing: 0.3rem;
+  font-family: $font-heading;
+  font-size: 1.9rem;
+  letter-spacing: 0.3rem;
 
-    @media (min-width: $breakpoint-sm) {
+  @media (min-width: $breakpoint-sm) {
     font-size: 2.2rem;
   }
-    
 }
 
 .profile-email {
-    font-family: $font-body;
-    font-size: 1rem;
-    color: $color-muted;
-    margin-top: 0.25rem;
+  font-family: $font-body;
+  font-size: 1rem;
+  color: $color-muted;
+  margin-top: 0.25rem;
 }
 
 .profile-credits {
-    font-family: $font-body;
-    font-size: 1rem;
-    color: $color-accent;
-    margin-top: 0.5rem;
+  font-family: $font-body;
+  font-size: 1rem;
+  color: $color-accent;
+  margin-top: 0.5rem;
 
-    display: inline-flex;
-    gap: 0.5rem;
-    align-items: center;
-
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .profile-bio {
-    font-family: $font-body;
-    font-size: 1rem;
-    color: $color-text;
-    margin-top: 1rem;
-    line-height: 1.5;
+  font-family: $font-body;
+  font-size: 1rem;
+  color: $color-text;
+  margin-top: 1rem;
+  line-height: 1.5;
 
-    @media (min-width: $breakpoint-sm) {
+  @media (min-width: $breakpoint-sm) {
     margin: 0;
   }
 }
 
 .profile-edit {
-  margin-top: 2rem;;
+  margin-top: 2rem;
 }
 
 .profile-edit-form {
   max-width: 480px;
   margin-top: 1rem;
 }
-
 
 /* button + messages container */
 .profile-edit .form-actions {
@@ -141,13 +137,11 @@
   gap: 0.4rem;
   margin-top: 0.75rem;
 
-
   align-items: flex-start;
   gap: 0.4rem;
   margin-top: 0.75rem;
 }
 
-
 .profile-edit .btn.btn--primary {
   border-radius: 999px;
   padding: 0.7rem 1.6rem;
@@ -163,7 +157,6 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-
 
 .profile-edit .form-success,
 .profile-edit .form-error {
@@ -172,7 +165,7 @@
 }
 
 .profile-edit .form-success {
-  color: #3b7a4a; 
+  color: #3b7a4a;
   padding-top: 0.1rem;
 }
 
@@ -181,21 +174,18 @@
   padding-top: 0.1rem;
 }
 
-
-
-
 //'My Listings' and 'My Bids' section//
 
 .profile-section-header {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 0 1rem;
-    border-bottom: 1px solid $color-muted;
-    margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid $color-muted;
+  margin-bottom: 1.5rem;
 
-    h2 {
+  h2 {
     font-family: $font-heading;
     font-size: 1.4rem;
     letter-spacing: 0.04em;
@@ -210,9 +200,11 @@
     color: $color-text;
     padding-bottom: 2px;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
 
-     &:hover {
+    &:hover {
       color: $color-accent;
       border-bottom-color: $color-accent;
     }
@@ -221,12 +213,12 @@
 
 .profile-auctions,
 .profile-sections {
-    margin-bottom: 4rem;
+  margin-bottom: 4rem;
 }
 
 //listings grid and cards//
 .profile-listings-grid {
-    display: grid;
+  display: grid;
   gap: 1.5rem;
   justify-content: center;
 
@@ -242,13 +234,16 @@
 
 .profile-listing-card {
   background: $color-bg;
-  max-width:  320px;
+  max-width: 320px;
   border: 1px solid $color-muted;
   border-radius: 14px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-3px);
@@ -335,4 +330,3 @@
   margin: 0;
   font-size: 0.9rem;
 }
-

@@ -145,7 +145,7 @@ async function setupProfileLogic() {
             Authorization: `Bearer ${token}`,
             "X-Noroff-API-Key": API_KEY,
           },
-        }
+        },
       );
 
       const result = await response.json();
@@ -180,84 +180,82 @@ async function setupProfileLogic() {
 
   //edit profile form submit //
   function setupEditProfileForm() {
-  if (!editProfileForm) return;
+    if (!editProfileForm) return;
 
-  editProfileForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+    editProfileForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-    if (!profileUpdateError || !profileUpdateSuccess) return;
+      if (!profileUpdateError || !profileUpdateSuccess) return;
 
-    profileUpdateError.textContent = "";
-    profileUpdateSuccess.textContent = "";
+      profileUpdateError.textContent = "";
+      profileUpdateSuccess.textContent = "";
 
-    const avatarUrl = avatarUrlInput?.value.trim() || "";
-    const bioValue = bioInput?.value.trim() || "";
+      const avatarUrl = avatarUrlInput?.value.trim() || "";
+      const bioValue = bioInput?.value.trim() || "";
 
-    //always send bio (can be empty string)//
-    const body = {
-      bio: bioValue || "",
-    };
-
-    //only include avatar if user wrote something in the field//
-    if (avatarUrl) {
-      body.avatar = {
-        url: avatarUrl,
-        alt: `${user.name}'s avatar`,
+      //always send bio (can be empty string)//
+      const body = {
+        bio: bioValue || "",
       };
-    }
-    //if avatarUrl is empty, we DON'T touch avatar at all//
-    //it stays whatever it already is on the profile//
 
-    try {
-      const response = await fetch(
-        `${API_BASE}/auction/profiles/${user.name}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            "X-Noroff-API-Key": API_KEY,
+      //only include avatar if user wrote something in the field//
+      if (avatarUrl) {
+        body.avatar = {
+          url: avatarUrl,
+          alt: `${user.name}'s avatar`,
+        };
+      }
+      //if avatarUrl is empty, we DON'T touch avatar at all//
+      //it stays whatever it already is on the profile//
+
+      try {
+        const response = await fetch(
+          `${API_BASE}/auction/profiles/${user.name}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+              "X-Noroff-API-Key": API_KEY,
+            },
+            body: JSON.stringify(body),
           },
-          body: JSON.stringify(body),
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          console.error("Failed to update profile:", result);
+          profileUpdateError.textContent =
+            result.errors?.[0]?.message || "Could not update profile.";
+          return;
         }
-      );
 
-      const result = await response.json();
+        const updatedProfile = result.data;
 
-      if (!response.ok) {
-        console.error("Failed to update profile:", result);
+        //update visible profile info//
+        bioEl.textContent = updatedProfile.bio || "No bio yet";
+        const newAvatarUrl = updatedProfile.avatar?.url || "";
+        profilePictureEl.src = newAvatarUrl;
+
+        //sync form fields//
+        if (avatarUrlInput) avatarUrlInput.value = newAvatarUrl;
+        if (bioInput) bioInput.value = updatedProfile.bio || "";
+
+        //update localStorage user//
+        const newUserData = { ...user, ...updatedProfile };
+        if (typeof saveUserData === "function") {
+          saveUserData(newUserData);
+        }
+
+        profileUpdateSuccess.textContent = "Profile updated successfully.";
+      } catch (error) {
+        console.error("Error updating profile:", error);
         profileUpdateError.textContent =
-          result.errors?.[0]?.message || "Could not update profile.";
-        return;
+          "An error occurred while saving your profile. Please try again.";
       }
-
-      const updatedProfile = result.data;
-
-      //update visible profile info//
-      bioEl.textContent = updatedProfile.bio || "No bio yet";
-      const newAvatarUrl = updatedProfile.avatar?.url || "";
-      profilePictureEl.src = newAvatarUrl;
-
-      //sync form fields//
-      if (avatarUrlInput) avatarUrlInput.value = newAvatarUrl;
-      if (bioInput) bioInput.value = updatedProfile.bio || "";
-
-      //update localStorage user//
-      const newUserData = { ...user, ...updatedProfile };
-      if (typeof saveUserData === "function") {
-        saveUserData(newUserData);
-      }
-
-      profileUpdateSuccess.textContent = "Profile updated successfully.";
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      profileUpdateError.textContent =
-        "An error occurred while saving your profile. Please try again.";
-    }
-  });
-}
-
-
+    });
+  }
 
   //load listings created by user//
   async function loadMyListings() {
@@ -274,7 +272,7 @@ async function setupProfileLogic() {
             Authorization: `Bearer ${token}`,
             "X-Noroff-API-Key": API_KEY,
           },
-        }
+        },
       );
 
       const result = await response.json();
@@ -324,7 +322,7 @@ async function setupProfileLogic() {
     }
   }
 
-   //load lsitings i have bid on//
+  //load lsitings i have bid on//
   async function loadMyBids() {
     if (!bidsContainer) return;
 
@@ -339,7 +337,7 @@ async function setupProfileLogic() {
             Authorization: `Bearer ${token}`,
             "X-Noroff-API-Key": API_KEY,
           },
-        }
+        },
       );
 
       const result = await response.json();
@@ -375,9 +373,8 @@ async function setupProfileLogic() {
             ? `Listing #${String(listingId).slice(0, 8)}`
             : "Unknown listing");
 
-            const firstMedia = listing.media?.[0];
-        const imageUrl =
-          firstMedia?.url || "";
+        const firstMedia = listing.media?.[0];
+        const imageUrl = firstMedia?.url || "";
 
         const card = document.createElement("article");
         card.className = "profile-bid-card";
@@ -413,8 +410,6 @@ async function setupProfileLogic() {
     }
   }
 
-
-
   //function to format date and time//
   function formatDateTime(dateString) {
     if (!dateString) return "Unknown";
@@ -428,6 +423,3 @@ async function setupProfileLogic() {
   await loadMyListings();
   await loadMyBids();
 }
-
-
-
