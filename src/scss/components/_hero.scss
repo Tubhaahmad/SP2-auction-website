@@ -55,7 +55,7 @@
     max-width: 760px;
     font-family: $font-body;
 
-    //opacity: 0;
+    
     transform: translateY(20px);
   transition: opacity 1s ease-out, transform 1s ease-out; //
 }
@@ -87,11 +87,6 @@
     padding: 0.75rem 1rem;
     font-size: 0.95rem;
     font-family: $font-body;
-    
-    
-    ;
-    
-    
     
     outline: none;
     transition: border-color $fast-transition, box-shadow $fast-transition, background-color $fast-transition;
@@ -170,5 +165,107 @@
     
 }
 
+.featured-section {
+    padding: 3rem 1.5rem;
+
+}
+
+.featured-header {
+    text-align: center;
+    margin-bottom: 2rem;
+
+    .featured-kicker {
+        font-family: $font-heading;
+        font-size: 1.1rem;
+        color: $color-accent;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 0.5rem;
+    }
+
+    .featured-title {
+        font-family: $font-heading;
+        font-size: 2rem;
+        color: $color-text;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .featured-subtitle {
+        font-family: $font-body;
+        font-size: 1rem;
+        color: $color-muted;
+        margin: 0 auto;
+        max-width: 480px;
+    }
+}
+
+.featured-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    
+}
+
+.featured-window {
+    overflow: hidden;
+    flex: 1;
+}
+
+
+
+.featured-slides {
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.5s ease;
+    overflow: hidden;
+    
+}
+
+.featured-slide {
+    flex: 0 0 100%;
+    padding: 1rem;
+}
+
+@media (min-width: 600px) {
+  .featured-slide {
+    flex: 0 0 calc((100% - 1.25rem) / 2);
+  }
+}
+
+
+@media (min-width: 992px) {
+  .featured-slide {
+    flex: 0 0 calc((100% - 2.5rem) / 3);
+  }
+}
+
+
+.featured-prev,
+.featured-next {
+    background-color: rgba($color-accent, 0.8);
+    border: none;
+    color: $color-bg;
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 0.4rem;
+    font-size: 1rem;
+    border-radius: 0.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color $fast-transition;
+
+    i {
+    pointer-events: none; 
+  }
+
+    &:hover {
+        background-color: rgba($color-accent, 1);
+    }
+}
 
 

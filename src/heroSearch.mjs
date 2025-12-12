@@ -1,29 +1,34 @@
 export function loadHeroSearch() {
-    const form = document.getElementById('heroSearchForm'); 
+    const heroForm = document.getElementById('heroSearchForm'); 
 const browseAllBtn = document.getElementById('heroBrowseAll');
-const heroText = document.getElementById('heroText');
+const heroText = document.querySelector(".hero-text-container");
+const heroInput = document.getElementById(".hero-search-input");
 
 if (heroText) {
-    window.requestAnimationFrame(() => {
+    setTimeout(() => {
         heroText.classList.add('visible');
-    });
+    }, 100);
 }
 
-if (!form) return;
-
-form.addEventListener('submit', (event) => {
+if (!heroForm && heroInput) {
+heroForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const query = heroInput.value.trim();
 
-    const formData = new FormData(form);
-    const query = String(formData.get("query" || "")).trim();
+    const params = new URLSearchParams();
+    if (query) {
+        params.set('query', query);
+    }
 
-    const url = query 
-        ? `/auctions.html?query=${encodeURIComponent(query)}`
-        : '/auctions.html';
+    const urlParams = params.toString();
+    const url = urlParams
+        ? `/auctions/auctions.html?${urlParams}`
+        : '/auctions/auctions.html';
 
     window.location.href = url;
-
 });
+
+}
 
 if (browseAllBtn) {
     browseAllBtn.addEventListener('click', () => {
@@ -31,3 +36,4 @@ if (browseAllBtn) {
     });
 }
 }
+
