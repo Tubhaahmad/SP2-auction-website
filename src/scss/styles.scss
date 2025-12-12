@@ -1,16 +1,16 @@
-@use "bootstrap/scss/bootstrap" as *;
-@use "bootstrap-icons/font/bootstrap-icons" as *;
+@use 'bootstrap/scss/bootstrap' as *;
+@use 'bootstrap-icons/font/bootstrap-icons' as *;
 
-@use "variables" as *;
-@use "mixins" as *;
-@use "layout" as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'layout' as *;
 
-@use "pages/profile" as *;
-@use "pages/listings" as *;
-@use "pages/listings-form" as *;
-@use "pages/auction" as *;
+@use 'pages/profile' as *;
+@use 'pages/listings' as *;
+@use 'pages/listings-form' as *;
+@use 'pages/auction' as *;
+@use 'pages/index' as *;
 
-@use "components/buttons" as *;
-@use "components/cards" as *;
-@use "components/navbar" as *;
-@use "components/hero" as *;
+@use 'components/buttons' as *;
+@use 'components/cards' as *;
+@use 'components/navbar' as *;
