@@ -1,7 +1,9 @@
 import './scss/styles.scss';
 import { loadNavbar } from './navbar.mjs';
+import { loadFooter } from './footer.mjs';
 
 loadNavbar();
+loadFooter();
 
 const API_BASE = 'https://v2.api.noroff.dev';
 const MAX_LISTINGS = 20;

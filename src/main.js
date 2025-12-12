@@ -1,71 +1,67 @@
-import "./scss/styles.scss";
-import { loadNavbar } from "./navbar.mjs";
-import { loadHeroSearch } from "./heroSearch.mjs";
+import './scss/styles.scss';
+import { loadNavbar } from './navbar.mjs';
+import { loadHeroSearch } from './heroSearch.mjs';
+import { loadFooter } from './footer.mjs';
 
 loadNavbar();
+loadFooter();
 
 // static featured artworks
 const featuredArtworks = [
   {
-    title: "Sunlit Reflections",
-    artist: "Clara Montreux",
-    tagLine: "Soft afternoon light over a quiet canal.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Sunlit Reflections',
+    artist: 'Clara Montreux',
+    tagLine: 'Soft afternoon light over a quiet canal.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
   {
-    title: "Fragment No. 4",
-    artist: "A. Richter (attr.)",
-    tagLine: "Layered abstractions in muted tones.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Fragment No. 4',
+    artist: 'A. Richter (attr.)',
+    tagLine: 'Layered abstractions in muted tones.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
   {
-    title: "Presence",
-    artist: "Miro Takeda",
-    tagLine: "Minimal sculpture, studio light, quiet tension.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Presence',
+    artist: 'Miro Takeda',
+    tagLine: 'Minimal sculpture, studio light, quiet tension.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
   {
-    title: "Sunlit Reflections",
-    artist: "Miro Takeda",
-    tagLine: "Minimal sculpture, studio light, quiet tension.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Sunlit Reflections',
+    artist: 'Miro Takeda',
+    tagLine: 'Minimal sculpture, studio light, quiet tension.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
   {
-    title: "Here",
-    artist: "Miro Takeda",
-    tagLine: "Minimal sculpture, studio light, quiet tension.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Here',
+    artist: 'Miro Takeda',
+    tagLine: 'Minimal sculpture, studio light, quiet tension.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
   {
-    title: "Hello",
-    artist: "Miro Takeda",
-    tagLine: "Minimal sculpture, studio light, quiet tension.",
-    imageUrl:
-      "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
-    link: "/auctions/auctions.html",
+    title: 'Hello',
+    artist: 'Miro Takeda',
+    tagLine: 'Minimal sculpture, studio light, quiet tension.',
+    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    link: '/auctions/auctions.html',
   },
 ];
 
 // create the slides and reuse listing-card styles
 function renderFeaturedSlides() {
-  const slidesContainer = document.querySelector(".featured-slides");
+  const slidesContainer = document.querySelector('.featured-slides');
   if (!slidesContainer) return;
 
-  slidesContainer.innerHTML = "";
+  slidesContainer.innerHTML = '';
 
   featuredArtworks.forEach((item) => {
-    const slide = document.createElement("article");
-    slide.classList.add("featured-slide");
+    const slide = document.createElement('article');
+    slide.classList.add('featured-slide');
 
     slide.innerHTML = `
       <div class="listing-card">
@@ -104,9 +100,9 @@ let slideIndex = 0;
 
 // show slide at current index//
 function showFeaturedSlide(index) {
-  const windowEl = document.querySelector(".featured-window");
-  const slideContainer = document.querySelector(".featured-slides");
-  const slides = document.querySelectorAll(".featured-slide");
+  const windowEl = document.querySelector('.featured-window');
+  const slideContainer = document.querySelector('.featured-slides');
+  const slides = document.querySelectorAll('.featured-slide');
 
   if (!windowEl || !slideContainer || slides.length === 0) return;
 
@@ -135,13 +131,13 @@ function prevFeaturedSlide() {
 }
 
 function setupFeaturedCarousel() {
-  const prevBtn = document.querySelector(".featured-prev");
-  const nextBtn = document.querySelector(".featured-next");
+  const prevBtn = document.querySelector('.featured-prev');
+  const nextBtn = document.querySelector('.featured-next');
 
-  if (prevBtn) prevBtn.addEventListener("click", prevFeaturedSlide);
-  if (nextBtn) nextBtn.addEventListener("click", nextFeaturedSlide);
+  if (prevBtn) prevBtn.addEventListener('click', prevFeaturedSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextFeaturedSlide);
 
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     showFeaturedSlide(slideIndex);
   });
 }
@@ -150,10 +146,11 @@ function initHomePage() {
   loadHeroSearch();
   renderFeaturedSlides();
   setupFeaturedCarousel();
+  loadFooter();
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initHomePage);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHomePage);
 } else {
   initHomePage();
 }

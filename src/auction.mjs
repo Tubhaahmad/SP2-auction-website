@@ -1,11 +1,13 @@
 import './scss/styles.scss';
 import { loadNavbar } from './navbar.mjs';
 import { getUser, getToken } from './auth.mjs';
+import { loadFooter } from './footer.mjs';
 
 const API_BASE = 'https://v2.api.noroff.dev';
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
 loadNavbar();
+loadFooter();
 
 //load auction page structure//
 export function loadAuctionPage() {
