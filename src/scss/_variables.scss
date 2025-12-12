@@ -1,14 +1,14 @@
 // Color Variables
 $color-bg: #f8f7f3; // bg-color
 $color-text: #1c1c1c; // primary text
-$color-accent: #bfa76f; // gold accent
-$color-muted: #c5c4be; // lines and borders
-$color-soft: #6e7c7c; // highlight
+$color-accent: #826727; // gold accent
+$color-muted: #6f695c; // lines and borders
+$color-soft: #5e6b6b; // highlight
 $color-charcoal: #2c2b28; // dark-bg
 
 // Font Variables
-$font-heading: "Libre Baskerville", serif;
-$font-body: "Manrope", sans-serif;
+$font-heading: 'Libre Baskerville', serif;
+$font-body: 'Manrope', sans-serif;
 
 // Layout Variables
 $nav-height: 4rem;
@@ -24,10 +24,10 @@ $breakpoint-large: 1024px;
 :root {
   --bg-main: #f8f7f3;
   --text-main: #1c1c1c;
-  --accent-gold: #bfa76f;
-  --text-muted: #c5c4be;
-  --highlight: #6e7c7c;
+  --accent-gold: #826727;
+  --text-muted: #6f695c;
+  --highlight: #5e6b6b;
   --dark-bg: #2c2b28;
-  --font-heading: "Libre Baskerville", serif;
-  --font-body: "Manrope", sans-serif;
+  --font-heading: 'Libre Baskerville', serif;
+  --font-body: 'Manrope', sans-serif;
 }
