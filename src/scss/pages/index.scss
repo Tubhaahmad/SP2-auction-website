@@ -3,7 +3,6 @@
 .hero-section {
   position: relative;
   width: 100%;
-  min-height: 80vh;
   overflow: hidden;
 }
 
@@ -16,7 +15,7 @@
   justify-content: center;
   padding: 10rem 1.5rem;
 
-  background-image: url('/images/hero-img.jpeg');
+  background-image: url('https://images.unsplash.com/photo-1578301977886-43be7b983104?q=80&w=2123&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   background-color: $color-accent;
   background-size: cover;
   background-position: center;
@@ -42,17 +41,19 @@
   font-family: $font-heading;
   font-size: 2rem;
   font-weight: 500;
-  color: $color-muted;
+  color: $color-text;
   margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .hero-text-container {
   position: relative;
   z-index: 1;
-  color: $color-muted;
+  color: $color-text;
   text-align: center;
   padding: 1.5rem 2rem;
-  max-width: 760px;
+  max-width: 900px;
   font-family: $font-body;
 
   transform: translateY(20px);
@@ -63,9 +64,13 @@
 
 .hero-img-text {
   font-size: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  font-family: $font-heading;
+  color: $color-charcoal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 .hero-search-form {
@@ -79,46 +84,17 @@
   }
 }
 
-.hero-search-input {
-  flex: 1;
-  border-radius: 1rem;
-  border: 1px solid $color-muted;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  font-family: $font-body;
-
-  outline: none;
-  transition:
-    border-color $fast-transition,
-    box-shadow $fast-transition,
-    background-color $fast-transition;
-
-  &:focus,
-  &:hover {
-    border-color: $color-accent;
-    box-shadow: 0 0 5px rgba($color-accent, 0.9);
-    background-color: rgba($color-bg, 0.85);
-    color: $color-bg;
-  }
-}
-
-.hero-search-button {
-  border-radius: 1rem;
-  font-family: $font-body;
-  font-size: 0.95rem;
-  background-color: $color-accent;
-  color: $color-bg;
-  border: 1px solid $color-accent;
-}
-
 .hero-browse-link {
   border: none;
   background: none;
   padding: 1rem;
   margin-top: 0.2rem;
-  font-family: $font-body;
-  font-size: 0.95rem;
-  color: $color-accent;
+  font-family: $font-heading;
+  font-size: 1.5rem;
+  font-weight: 560;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #453c28;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -133,12 +109,12 @@
     bottom: -0.1rem;
     width: 0;
     height: 1px;
-    background-color: $color-accent;
+    background-color: $color-text;
     transition: width 0.25s ease;
   }
 
   &:hover {
-    color: $color-accent;
+    color: $color-text;
 
     &::after {
       width: 100%;
@@ -147,9 +123,6 @@
 }
 
 @media (min-width: $breakpoint-sm) {
-  .hero-section {
-    min-height: 90vh;
-  }
   .hero-text-container {
     font-size: 1rem;
   }
