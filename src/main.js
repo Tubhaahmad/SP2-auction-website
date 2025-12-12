@@ -53,7 +53,7 @@ const featuredArtworks = [
     imageUrl:
       "https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg",
     link: "/auctions/auctions.html",
-  }
+  },
 ];
 
 // create the slides and reuse listing-card styles
@@ -92,19 +92,19 @@ function renderFeaturedSlides() {
   });
 }
 
-function getVisibleSlides () {
-    const width = window.innerWidth;
+function getVisibleSlides() {
+  const width = window.innerWidth;
 
-    if (width >= 1024) return 3;
-    if (width >= 768) return 2;
-    return 1;
+  if (width >= 1024) return 3;
+  if (width >= 768) return 2;
+  return 1;
 }
 
 let slideIndex = 0;
 
 // show slide at current index//
 function showFeaturedSlide(index) {
-    const windowEl = document.querySelector(".featured-window");
+  const windowEl = document.querySelector(".featured-window");
   const slideContainer = document.querySelector(".featured-slides");
   const slides = document.querySelectorAll(".featured-slide");
 
@@ -142,9 +142,8 @@ function setupFeaturedCarousel() {
   if (nextBtn) nextBtn.addEventListener("click", nextFeaturedSlide);
 
   window.addEventListener("resize", () => {
-  showFeaturedSlide(slideIndex);
+    showFeaturedSlide(slideIndex);
   });
-
 }
 
 function initHomePage() {
@@ -158,4 +157,3 @@ if (document.readyState === "loading") {
 } else {
   initHomePage();
 }
-
