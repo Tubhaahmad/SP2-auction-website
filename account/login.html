@@ -14,32 +14,21 @@
         <h2 class="login-heading">Welcome Back!</h2>
         <p class="login-subtitle">Log in to continue bidding.</p>
 
-        <form
-          action=""
-          id="login-form"
-          class="login-form"
-          aria-label="Login Form"
-        >
+        <form action="" id="login-form" class="login-form" aria-label="Login Form">
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            aria-label="Email"
-          />
+          <input type="email" id="email" name="email" required aria-label="Email" />
 
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            aria-label="Password"
-          />
+          <input type="password" id="password" name="password" required aria-label="Password" />
 
           <button type="submit" class="login-btn">Login</button>
+          <p id="login-error" class="login-error" aria-live="polite"></p>
         </form>
+
+        <p class="register-link">
+          Don't have an account?
+          <a href="/account/register.html">Register here</a>
+        </p>
       </div>
     </main>
 
