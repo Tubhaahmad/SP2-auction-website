@@ -1,42 +1,41 @@
-import { getToken, getUser, logoutUser, saveUserData } from "./auth.mjs";
+import { getToken, getUser, logoutUser, saveUserData } from './auth.mjs';
 
-const API_BASE = "https://v2.api.noroff.dev";
+const API_BASE = 'https://v2.api.noroff.dev';
 const API_KEY = import.meta.env.VITE_NOROFF_API_KEY;
 
 export function loadNavbar() {
-  const header = document.querySelector("header");
+  const header = document.querySelector('header');
   if (!header) return;
 
   header.innerHTML = `
-    <div class="site-header">
+    <header class="site-header">
       <nav class="nav-container">
+        <!-- Mobile toggle -->
         <input type="checkbox" id="nav-toggle" class="nav-toggle" />
         <label for="nav-toggle" class="nav-toggle-label">☰</label>
 
+        <!-- Left side -->
         <div class="nav-left">
           <a href="/">Home</a>
-          <span class="divider">|</span>
           <a href="/auctions/auctions.html">Auctions</a>
+          <a href="/listings/create.html" id="create-link">Create listing</a>
         </div>
 
+        <!-- Center logo -->
         <div class="logo" id="navbar-logo">
-          <a href="#">Artevia</a>
+          <a href="/">Artevia</a>
         </div>
 
+        <!-- Right side -->
         <div class="nav-right">
-         <span id="navbar-credits" class="nav-credits"></span>
-
+          <span id="navbar-credits" class="nav-credits"></span>
           <a href="/account/profile.html" id="profile-link">Profile</a>
-           <a href="/listings/create.html" id="create-link">Create listing</a>
-
-         
           <a href="/account/login.html" id="login-link">Login</a>
-          <span class="divider">|</span>
           <a href="/account/register.html" id="register-link">Register</a>
           <a href="/account/login.html" id="logout-btn" class="hidden">Logout</a>
         </div>
       </nav>
-    </div>
+    </header>
   `;
 
   updateNavbar();
@@ -44,65 +43,61 @@ export function loadNavbar() {
 
 function updateNavbar() {
   const token = getToken();
-  const loginLink = document.getElementById("login-link");
-  const registerLink = document.getElementById("register-link");
-  const logoutBtn = document.getElementById("logout-btn");
-  const divider = document.querySelector(".divider");
-  const profileLink = document.getElementById("profile-link");
-  const createLink = document.getElementById("create-link");
+  const loginLink = document.getElementById('login-link');
+  const registerLink = document.getElementById('register-link');
+  const logoutBtn = document.getElementById('logout-btn');
+  const profileLink = document.getElementById('profile-link');
+  const createLink = document.getElementById('create-link');
+  const creditsEl = document.getElementById('navbar-credits');
 
   if (token) {
-    loginLink.style.display = "none";
-    registerLink.style.display = "none";
-    divider.style.display = "none";
+    if (loginLink) loginLink.style.display = 'none';
+    if (registerLink) registerLink.style.display = 'none';
 
-    profileLink.style.display = "inline";
-    createLink.style.display = "inline";
+    if (profileLink) profileLink.style.display = 'inline';
+    if (createLink) createLink.style.display = 'inline';
+    if (logoutBtn) {
+      logoutBtn.classList.remove('hidden');
+      logoutBtn.style.display = 'inline';
 
-    logoutBtn.classList = "hidden";
-    logoutBtn.style.display = "inline";
-
-    logoutBtn.addEventListener("click", (event) => {
-      logoutUser();
-      alert("You have been logged out.");
-      window.location.href = "/index.html";
-    });
+      logoutBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        logoutUser();
+        alert('You have been logged out.');
+        window.location.href = '/index.html';
+      });
+    }
 
     showNavbarCredits();
   } else {
-    loginLink.style.display = "inline";
-    registerLink.style.display = "inline";
-    divider.style.display = "inline";
+    if (loginLink) loginLink.style.display = 'inline';
+    if (registerLink) registerLink.style.display = 'inline';
 
-    profileLink.style.display = "none";
-    createLink.style.display = "none";
-    logoutBtn.style.display = "none";
-    createLink.style.display = "none";
-
-    const creditsEl = document.getElementById("navbar-credits");
-    if (creditsEl) {
-      creditsEl.textContent = "";
+    if (profileLink) profileLink.style.display = 'none';
+    if (createLink) createLink.style.display = 'none';
+    if (logoutBtn) {
+      logoutBtn.classList.add('hidden');
+      logoutBtn.style.display = 'none';
     }
+
+    if (creditsEl) creditsEl.style.display = 'none';
   }
 }
 
-//display user credits in navbar//
+// display user credits in navbar //
 function showNavbarCredits() {
-  const creditsEl = document.getElementById("navbar-credits");
+  const creditsEl = document.getElementById('navbar-credits');
   if (!creditsEl) return;
 
   const user = getUser();
-
   if (!user) {
-    creditsEl.textContent = "";
+    creditsEl.textContent = '';
     return;
   }
 
-  //initial display before fetch//
-  const currentCredits = typeof user.credits === "number" ? user.credits : "0";
+  const currentCredits = typeof user.credits === 'number' ? user.credits : '0';
   creditsEl.textContent = `Credits: ${currentCredits}`;
 
-  //fetch latest credits//
   fetchProfileCredits(creditsEl);
 }
 
@@ -112,36 +107,35 @@ async function fetchProfileCredits(creditsEl) {
 
   if (!token || !user) return;
   if (!API_KEY) {
-    console.error("API key is missing.");
+    console.error('API key is missing.');
     return;
   }
+
   try {
     const response = await fetch(`${API_BASE}/auction/profiles/${user.name}`, {
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
-        "X-Noroff-API-Key": API_KEY,
+        'X-Noroff-API-Key': API_KEY,
       },
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Failed to fetch profile credits:", data);
+      console.error('Failed to fetch profile credits:', data);
       return;
     }
 
     const updatedProfile = data.data;
-
     if (!updatedProfile) return;
 
     const updatedUser = { ...user, ...updatedProfile };
     saveUserData(updatedUser);
 
-    const credits =
-      typeof updatedProfile.credits === "number" ? updatedProfile.credits : "0";
+    const credits = typeof updatedProfile.credits === 'number' ? updatedProfile.credits : '0';
     creditsEl.textContent = `Credits: ${credits}`;
   } catch (error) {
-    console.error("Error fetching profile credits:", error);
+    console.error('Error fetching profile credits:', error);
   }
 }

@@ -1,4 +1,4 @@
-@use "../variables" as *;
+@use '../variables' as *;
 
 .profile-page {
   background-color: #efeee9;
@@ -306,6 +306,7 @@
   border-radius: 1rem;
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.05);
+  min-width: 280px;
 }
 
 .profile-bid-image {

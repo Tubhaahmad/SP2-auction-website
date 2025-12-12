@@ -1,4 +1,4 @@
-@use "../variables" as *;
+@use '../variables' as *;
 
 .site-header {
   position: sticky;
@@ -6,6 +6,7 @@
   z-index: 1000;
   background-color: $color-bg;
   border-bottom: 1px solid $color-muted;
+  backdrop-filter: blur(8px);
   transition:
     background-color $fast-transition,
     box-shadow $fast-transition;
@@ -15,21 +16,14 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 1rem;
 
   font-family: $font-body;
   color: $color-text;
-}
-
-@media (max-width: 767px) {
-  .nav-container {
-    flex-direction: column;
-    padding-bottom: 2rem;
-  }
 }
 
 .nav-left,
@@ -39,75 +33,139 @@
   gap: 0.5rem;
 }
 
+.nav-left {
+  justify-self: flex-start;
+}
+
+.nav-right {
+  justify-self: flex-end;
+  justify-content: flex-end;
+}
+
 .nav-left a,
-.nav-right a {
+.nav-right a,
+#logout-btn {
   text-decoration: none;
   color: $color-text;
-  font-weight: 500;
-  padding-top: 3rem;
-  padding-bottom: 2rem;
-  font-size: 1rem;
+  font-weight: 550;
+  padding-block: 1rem;
+  font-size: 0.9rem;
   position: relative;
   transition: color $fast-transition;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-family: $font-heading;
+  background: none;
+  border: none;
 }
 
-.logo a {
-  font-size: 1.3rem;
+.nav-left a:not(:first-child)::before,
+.nav-right a:not(:first-child)::before {
+  content: '|';
+  color: $color-muted;
+  margin-right: 0.5rem;
+}
+
+.nav-right a:first-of-type::before {
+  content: '|';
+  color: $color-muted;
+  margin-right: 0.5rem;
+}
+
+.logo {
+  justify-self: center;
   text-align: center;
-  font-family: var(--font-heading);
-  text-decoration: none;
-  color: $color-text;
-  font-weight: 500;
 
-  @media (width>850px) {
-    font-size: 1.7rem;
+  a {
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    color: $color-text;
+    font-weight: 500;
   }
 
-  @media (width>920px) {
-    font-size: 2.5rem;
+  @media (width > 850px) {
+    a {
+      font-size: 1.9rem;
+    }
+  }
+
+  @media (width > 920px) {
+    a {
+      font-size: 2.3rem;
+    }
   }
 }
 
-.divider {
-  padding-top: 1rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+.nav-left a:hover,
+.nav-right a:hover,
+#logout-btn:hover {
+  color: $color-accent;
 }
 
-/* Hamburger toggle */
+.nav-credits {
+  font-family: $font-heading;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  background-color: $color-accent;
+  color: $color-bg;
+  margin-right: 0.5rem;
+
+  @media (max-width: 767px) {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    align-self: flex-start;
+  }
+}
+
 .nav-toggle {
   display: none;
 }
+
 .nav-toggle-label {
   display: none;
   font-size: 2rem;
   color: $color-text;
   cursor: pointer;
   position: absolute;
-  top: 2.4rem;
+  top: 1.3rem;
   right: 1.5rem;
 }
 
-/* Mobile Nav */
 @media (max-width: 767px) {
-  .nav-toggle-label {
-    display: block;
+  .nav-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 0.75rem;
   }
 
   .logo {
-    padding-top: 3rem;
+    padding-top: 0.5rem;
   }
-  .divider {
-    display: none;
+
+  .nav-toggle-label {
+    display: block;
   }
 
   .nav-left,
   .nav-right {
     display: none;
-    width: 100%;
     flex-direction: column;
     background-color: $color-bg;
-    padding: 1rem;
+    padding: 0.75rem 0;
+    margin: 0 auto;
+  }
+
+  .nav-left a,
+  .nav-right a,
+  #logout-btn {
+    padding-block: 0.5rem;
   }
 
   .nav-toggle:checked ~ .nav-left,
@@ -115,37 +173,16 @@
     display: flex;
   }
 
-  .nav-container {
-    flex-direction: column;
-  }
-
   .nav-toggle:checked ~ #navbar-logo {
     display: none;
   }
-}
 
-.nav-left a:hover,
-.nav-right a:hover,
-.nav-menu a:hover {
-  color: var(--accent-color);
-  text-decoration: underline;
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
-}
-
-.nav-credits {
-  font-family: $font-body;
-  font-size: 1rem;
-  color: $color-muted;
-  margin-right: 1.5rem;
-
-  @media (max-width: 767px) {
-    margin-right: 0;
-    display: block;
+  .nav-left a::before,
+  .nav-right a::before {
+    content: none;
   }
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
