@@ -70,16 +70,23 @@ function setupAuctionsList() {
       const result = await response.json();
       const listings = result.data || [];
 
-      allListings = listings.slice(0, MAX_LISTINGS).map((item) => {
-        const firstMedia = item.media && item.media.length > 0 ? item.media[0] : null;
+      allListings = (result.data || []).map((item) => {
+        const firstMedia = item.media?.[0] || null;
+
+        const endsAtTs = item.endsAt ? Date.parse(item.endsAt) : Number.POSITIVE_INFINITY;
+        const createdTs = item.createdAt ? Date.parse(item.createdAt) : 0;
 
         return {
           id: item.id,
           title: item.title,
           artist: item.seller?.name || 'Unknown Artist',
-          bids: item._count?.bids ?? 0,
+          bids: item._count?.bids || 0,
+
+          endsAtTs,
+          createdTs,
+
           endsIn: formatEndsIn(item.endsAt),
-          image: firstMedia?.url || 'https://via.placeholder.com/300x200?text=No+Image',
+          image: firstMedia ? firstMedia.url || '' : '',
         };
       });
 
@@ -172,13 +179,12 @@ function setupAuctionsList() {
 
     if (value === 'mostBids') {
       filteredListings = [...filteredListings].sort((a, b) => b.bids - a.bids);
+    } else if (value === 'newest') {
+      filteredListings = [...filteredListings].sort((a, b) => b.createdTs - a.createdTs);
+    } else if (value === 'endingSoon') {
+      filteredListings = [...filteredListings].sort((a, b) => a.endsAtTs - b.endsAtTs);
     }
 
-    if (value === 'newest') {
-      filteredListings = [...filteredListings].reverse();
-    }
-
-    //ending soon sorting will be implemented when i have real data (API) later)
     renderListings();
   });
 }

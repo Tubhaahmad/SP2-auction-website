@@ -266,39 +266,30 @@ async function setupEditListingLogic(listingId) {
         };
 
         try {
-          const relistedListing = {
-            title,
-            description,
-            tags,
-            endsAt: endsAtDate.toISOString(),
-            media: imageUrl ? [{ url: imageUrl, alt: imageAlt }] : [],
-          };
-
-          const createResponse = await fetch(`${API_BASE}/auction/listings`, {
-            method: 'POST',
+          const updateResponse = await fetch(`${API_BASE}/auction/listings/${listingId}`, {
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
               'X-Noroff-API-Key': API_KEY,
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(relistedListing),
+            body: JSON.stringify(updatedListing),
           });
 
-          const createJson = await createResponse.json();
+          const updateJson = await updateResponse.json();
 
-          if (!createResponse.ok) {
+          if (!updateResponse.ok) {
             errorMessage.textContent =
-              createJson.errors?.[0]?.message || 'Failed to relist the auction. Please try again.';
+              updateJson.errors?.[0]?.message || 'Failed to update listing.';
             return;
           }
 
-          const newListingId = createJson.data.id;
-          successMessage.textContent = 'Listing updated successfully. Redirecting...';
-          window.location.href = `/auctions/auction.html?id=${newListingId}`;
+          successMessage.textContent = 'Listing updated successfully!';
+          window.location.href = `/auctions/auction.html?id=${listingId}`;
         } catch (error) {
           console.error('Update listing error:', error);
           errorMessage.textContent =
-            'An error occurred while updating the listing. Please try again.';
+            'An error occurred while updating the listing. Please try again later.';
         }
       });
 
@@ -338,7 +329,7 @@ async function setupEditListingLogic(listingId) {
         <section class="container create-listing-message" aria-label="Edit Listing Error Message">
           <h1 class="page-title">Edit Listing</h1>
           <p>Could not load this listing.</p>
-          <a href="/account/profile.html" class="btn btn--primary" aria-label="Back to Profile Button">Back to Profile</a>
+          <a href="/account/profile.html" class="btn btn--primary">Back to Profile</a>
         </section>
       `;
     }
