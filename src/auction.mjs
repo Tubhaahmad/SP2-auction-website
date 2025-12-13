@@ -34,6 +34,8 @@ export function loadAuctionPage() {
           <p id="auctionBidsCount" class="auction-bids-count" aria-label="Auction Bids Count"></p>
         </div>
       </div>
+
+      <div id="auctionActions" class="auction-actions" aria-label="Auction Actions"></div>
     </div>
 
     <!-- FULL-WIDTH BID HISTORY -->
@@ -83,6 +85,7 @@ async function setupAuctionLogic() {
   const bidsCountEl = document.getElementById('auctionBidsCount');
   const bidsListEl = document.getElementById('bidsList');
   const bidSectionEl = document.getElementById('bidSection');
+  const actionsEl = document.getElementById('auctionActions');
 
   let currentListing = null;
   let highestBid = 0; //tracking the highest bid
@@ -142,6 +145,27 @@ async function setupAuctionLogic() {
         </section>
       `;
     }
+
+    function renderOwnerActions() {
+      if (!actionsEl) return;
+      actionsEl.innerHTML = '';
+
+      const token = getToken();
+      const user = getUser();
+      if (!token || !user || !currentListing) return;
+
+      const isOwner = currentListing.seller?.name === user.name;
+      if (!isOwner) return;
+
+      const editUrl = `${import.meta.env.BASE_URL}listings/edit.html?id=${currentListing.id}`;
+
+      actionsEl.innerHTML = `
+    <a href="${editUrl}" class="btn btn--ghost" aria-label="Edit this listing">
+      Edit listing
+    </a>
+  `;
+    }
+    renderOwnerActions();
   }
 
   //render bid history//
