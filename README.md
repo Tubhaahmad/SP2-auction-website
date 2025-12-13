@@ -23,7 +23,6 @@ The project is built using the Noroff Auction API and focuses on clean UI, acces
   - Time remaining
   - Bid history (if any)
 - Browse **home page** with:
-  - Hero search
   - Featured artworks carousel
   - Short sections explaining how Artevia works
 
