@@ -21,7 +21,7 @@ export function loadCreateListingPage() {
       <section class="container create-listing-message" aria-label="Create Listing Message">
         <h1 class="page-title">Create Listing</h1>
         <p>You need to be logged in to create a listing.</p>
-        <a href="/account/login.html" class="btn btn--primary" aria-label="Go to Login">Go to Login</a>
+        <a href="${import.meta.env.BASE_URL}account/login.html" class="btn btn--primary" aria-label="Go to Login">Go to Login</a>
       </section>
     `;
     return;
@@ -240,7 +240,7 @@ function setupCreateListingForm() {
       const listingId = result.data?.id;
 
       if (listingId) {
-        window.location.href = `/auction.html?id=${listingId}`;
+        window.location.href = `/auctions/auction.html?id=${listingId}`;
       } else {
         form.reset();
       }
