@@ -129,6 +129,41 @@ async function setupProfileLogic() {
   const listingsContainer = document.getElementById('profileListings');
   const bidsContainer = document.getElementById('profileBids');
 
+  if (listingsContainer) {
+    listingsContainer.addEventListener('click', async (event) => {
+      const btn = event.target.closest('button[data-id]');
+      if (!btn) return;
+
+      const listingId = btn.dataset.id;
+      if (!listingId) return;
+
+      const confirmDelete = confirm('Are you sure you want to delete this listing?');
+      if (!confirmDelete) return;
+
+      try {
+        const deleteResponse = await fetch(`${API_BASE}/auction/listings/${listingId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+            'X-Noroff-API-Key': API_KEY,
+          },
+        });
+
+        if (!deleteResponse.ok) {
+          const err = await deleteResponse.json().catch(() => null);
+          alert(err?.errors?.[0]?.message || 'Failed to delete listing.');
+          return;
+        }
+
+        btn.closest('.profile-listing-card')?.remove();
+      } catch (error) {
+        console.error('Delete listing error:', error);
+        alert('An error occurred while deleting. Please try again.');
+      }
+    });
+  }
+
   //get edit profile form elements//
   const editProfileForm = document.getElementById('editProfileForm');
   const avatarUrlInput = document.getElementById('avatarUrl');
