@@ -266,30 +266,39 @@ async function setupEditListingLogic(listingId) {
         };
 
         try {
-          const updateResponse = await fetch(`${API_BASE}/auction/listings/${listingId}`, {
-            method: 'PUT',
+          const relistedListing = {
+            title,
+            description,
+            tags,
+            endsAt: endsAtDate.toISOString(),
+            media: imageUrl ? [{ url: imageUrl, alt: imageAlt }] : [],
+          };
+
+          const createResponse = await fetch(`${API_BASE}/auction/listings`, {
+            method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-Noroff-API-Key': API_KEY,
               Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(updatedListing),
+            body: JSON.stringify(relistedListing),
           });
 
-          const updateJson = await updateResponse.json();
+          const createJson = await createResponse.json();
 
-          if (!updateResponse.ok) {
+          if (!createResponse.ok) {
             errorMessage.textContent =
-              updateJson.errors?.[0]?.message || 'Failed to update listing.';
+              createJson.errors?.[0]?.message || 'Failed to relist the auction. Please try again.';
             return;
           }
 
-          successMessage.textContent = 'Listing updated successfully!';
-          window.location.href = `/auctions/auction.html?id=${listingId}`;
+          const newListingId = createJson.data.id;
+          successMessage.textContent = 'Listing updated successfully. Redirecting...';
+          window.location.href = `/auctions/auction.html?id=${newListingId}`;
         } catch (error) {
           console.error('Update listing error:', error);
           errorMessage.textContent =
-            'An error occurred while updating the listing. Please try again later.';
+            'An error occurred while updating the listing. Please try again.';
         }
       });
 
