@@ -206,6 +206,12 @@ async function setupAuctionLogic() {
 
     const ended = currentListing && new Date(currentListing.endsAt).getTime() < Date.now();
 
+    const isOwner = user && currentListing?.seller?.name === user.name;
+    if (isOwner) {
+      bidSectionEl.innerHTML = `<p class="bid-owner-message">You can’t bid on your own listing.</p>`;
+      return;
+    }
+
     //if not logged in, show login prompt//
     if (!token) {
       bidSectionEl.innerHTML = `
