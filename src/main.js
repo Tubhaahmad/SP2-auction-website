@@ -6,7 +6,6 @@ import { loadFooter } from './footer.mjs';
 loadNavbar();
 loadFooter();
 
-// static featured artworks
 const featuredArtworks = [
   {
     title: 'Sunlit Reflections',
@@ -19,126 +18,123 @@ const featuredArtworks = [
     title: 'Fragment No. 4',
     artist: 'A. Richter (attr.)',
     tagLine: 'Layered abstractions in muted tones.',
-    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    imageUrl: 'https://i.pinimg.com/736x/ed/64/16/ed6416980dd035dc69d3c56351474c96.jpg',
     link: '/auctions/auctions.html',
   },
   {
     title: 'Presence',
     artist: 'Miro Takeda',
     tagLine: 'Minimal sculpture, studio light, quiet tension.',
-    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    imageUrl: 'https://i.pinimg.com/1200x/58/ea/91/58ea9143e6de8a2bb4735bd13692a6ff.jpg',
     link: '/auctions/auctions.html',
   },
   {
     title: 'Sunlit Reflections',
     artist: 'Miro Takeda',
     tagLine: 'Minimal sculpture, studio light, quiet tension.',
-    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    imageUrl: 'https://i.pinimg.com/736x/c4/85/ae/c485aeff8cde1dc1c29889cd8418fbe4.jpg',
     link: '/auctions/auctions.html',
   },
   {
     title: 'Here',
     artist: 'Miro Takeda',
     tagLine: 'Minimal sculpture, studio light, quiet tension.',
-    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    imageUrl: 'https://i.pinimg.com/736x/b9/8d/7b/b98d7b442b1fbf02a31ec6b9a73a267f.jpg',
     link: '/auctions/auctions.html',
   },
   {
     title: 'Hello',
     artist: 'Miro Takeda',
     tagLine: 'Minimal sculpture, studio light, quiet tension.',
-    imageUrl: 'https://i.pinimg.com/736x/51/c5/11/51c511a8c957e833993c0d6f5037be5e.jpg',
+    imageUrl: 'https://i.pinimg.com/1200x/38/f6/2b/38f62b8026f0b7bd0a0a2b38e41c3e65.jpg',
     link: '/auctions/auctions.html',
   },
 ];
 
-// create the slides and reuse listing-card styles
 function renderFeaturedSlides() {
   const slidesContainer = document.querySelector('.featured-slides');
   if (!slidesContainer) return;
 
   slidesContainer.innerHTML = '';
-
   featuredArtworks.forEach((item) => {
     const slide = document.createElement('article');
     slide.classList.add('featured-slide');
-
     slide.innerHTML = `
       <div class="listing-card">
         <div class="listing-image-wrapper">
-          <img
-            src="${item.imageUrl}"
-            alt="${item.title} by ${item.artist}"
-            class="listing-image"
-          />
+          <img src="${item.imageUrl}" alt="${item.title} by ${item.artist}" class="listing-image" />
         </div>
-
         <div class="listing-content">
           <h3 class="listing-title">${item.title}</h3>
           <p class="listing-artist">by ${item.artist}</p>
           <p class="listing-bids">${item.tagLine}</p>
-          <a href="${item.link}" class="listing-view-btn">
-            View auctions
-          </a>
+          <a href="${item.link}" class="listing-view-btn">View auctions</a>
         </div>
       </div>
     `;
-
     slidesContainer.appendChild(slide);
   });
 }
 
 function getVisibleSlides() {
   const width = window.innerWidth;
-
-  if (width >= 1024) return 3;
-  if (width >= 768) return 2;
+  if (width >= 992) return 3;
+  if (width >= 600) return 2;
   return 1;
 }
 
 let slideIndex = 0;
+let isTransitioning = false;
 
-// show slide at current index//
+function getMaxIndex() {
+  return Math.max(0, featuredArtworks.length - getVisibleSlides());
+}
+
 function showFeaturedSlide(index) {
-  const windowEl = document.querySelector('.featured-window');
+  if (isTransitioning) return;
+
   const slideContainer = document.querySelector('.featured-slides');
-  const slides = document.querySelectorAll('.featured-slide');
+  if (!slideContainer) return;
 
-  if (!windowEl || !slideContainer || slides.length === 0) return;
-
-  const visibleSlides = getVisibleSlides();
-  const totalSlides = slides.length;
-  const maxIndex = Math.max(0, totalSlides - visibleSlides);
-
-  if (index >= maxIndex) index = 0;
+  const maxIndex = getMaxIndex();
+  if (index > maxIndex) index = 0;
   if (index < 0) index = maxIndex;
-
   slideIndex = index;
 
-  const containerWidth = slideContainer.getBoundingClientRect().width;
-  const step = containerWidth / visibleSlides;
+  const firstSlide = slideContainer.querySelector('.featured-slide');
+  if (!firstSlide) return;
 
-  slideContainer.style.transform = `translateX(-${slideIndex * step}px)`;
-}
+  const slideWidth = firstSlide.getBoundingClientRect().width;
+  const gap = parseFloat(getComputedStyle(slideContainer).gap) || 16;
+  const stepPx = slideWidth + gap;
 
-// next / prev//
-function nextFeaturedSlide() {
-  showFeaturedSlide(slideIndex + 1);
-}
+  slideContainer.style.transform = `translateX(-${slideIndex * stepPx}px)`;
 
-function prevFeaturedSlide() {
-  showFeaturedSlide(slideIndex - 1);
+  isTransitioning = true;
+  setTimeout(() => {
+    isTransitioning = false;
+  }, 500);
 }
 
 function setupFeaturedCarousel() {
-  const prevBtn = document.querySelector('.featured-prev');
-  const nextBtn = document.querySelector('.featured-next');
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.featured-next')) {
+      console.log('[carousel] next clicked');
+      showFeaturedSlide(slideIndex + 1);
+    }
+    if (e.target.closest('.featured-prev')) {
+      console.log('[carousel] prev clicked');
+      showFeaturedSlide(slideIndex - 1);
+    }
+  });
 
-  if (prevBtn) prevBtn.addEventListener('click', prevFeaturedSlide);
-  if (nextBtn) nextBtn.addEventListener('click', nextFeaturedSlide);
-
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    showFeaturedSlide(slideIndex);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      isTransitioning = false;
+      showFeaturedSlide(Math.min(slideIndex, getMaxIndex()));
+    }, 150);
   });
 }
 
@@ -146,7 +142,6 @@ function initHomePage() {
   loadHeroSearch();
   renderFeaturedSlides();
   setupFeaturedCarousel();
-  loadFooter();
 }
 
 if (document.readyState === 'loading') {
