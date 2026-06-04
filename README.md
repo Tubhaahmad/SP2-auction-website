@@ -103,7 +103,7 @@ If you'd like to contribute, please fork the repository and open a pull request.
 
 ## Acknowledgments
 
-Built as part of the CSS Frameworks course assignment at Noroff School of Technology and Digital Media.
+Built as part of the Semester Project 2 at Noroff School of Technology and Digital Media.
 
 ## Authors
 - Tubha Ahmad(@Tubhaahmad)
