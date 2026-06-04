@@ -2,6 +2,9 @@
 Artevia is an online auction platform where students can list, browse, and bid on artworks.  
 The project is built using the Noroff Auction API and focuses on clean UI, accessibility, and core auction functionality.
 
+<img width="2906" height="1479" alt="auction-website" src="https://github.com/user-attachments/assets/29e04c90-fe2f-4089-bacb-cf0bf8a4aafa" />
+
+
 ## Resources
 
 - [Brief](https://lms.noroff.no/mod/book/view.php?id=124625&chapterid=61899)
